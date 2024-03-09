@@ -1,0 +1,28 @@
+[
+    {
+      "announcer": "ObjectIdPlaceholder1",
+      "content": "Announcement 1",
+      "isResults": false
+    },
+    {
+      "announcer": "ObjectIdPlaceholder2",
+      "content": "Announcement 2",
+      "isResults": true
+    },
+    {
+      "announcer": "ObjectIdPlaceholder3",
+      "content": "Announcement 3",
+      "isResults": false
+    },
+    {
+      "announcer": "ObjectIdPlaceholder4",
+      "content": "Announcement 4",
+      "isResults": true
+    },
+    {
+      "announcer": "ObjectIdPlaceholder5",
+      "content": "Announcement 5",
+      "isResults": false
+    }
+  ]
+  

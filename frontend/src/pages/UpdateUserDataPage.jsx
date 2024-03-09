@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Label from "../components/Label";
-import Input from "../components/Input";
-import Button from "../components/Button";
+
 import Sidebar from "../components/Sidebar";
+
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import { getUserData } from "../services/getUserData.services.js";
-import { updateUserDetails } from "../services/updateUserDetails.services.js";
+import {
+  handleSubmit,
+  handleChange,
+} from "../handlers/updateUserData.handler.js";
+
+
 function UpdateUserDataPage() {
   let navigate = useNavigate();
+
   const [formVal, setFormVal] = useState({
     email: "",
     dob: "",
@@ -25,26 +29,6 @@ function UpdateUserDataPage() {
 
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
   const { id } = useParams();
-  function handleChange(e) {
-    // console.log(formVal);
-    const name = e.target.name + "Error";
-    // console.log(name);
-    setError({ ...error, [name]: "", otherError: "" });
-    setFormVal({ ...formVal, [e.target.name]: e.target.value });
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    try {
-      const response = await updateUserDetails(id, formVal);
-      setError({...error,...response?.error})
-        navigate(`/userprofile`)
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
 
   useEffect(() => {
     async function loadLoggedInUserDetails() {
@@ -57,10 +41,8 @@ function UpdateUserDataPage() {
       const data = await getUserData(id);
 
       const dob = data?.dob;
-      // console.log(dob);
 
       const formattedDate = dob.slice(0, 10);
-      // console.log(datee);
 
       setFormVal({
         email: data?.email,
@@ -99,7 +81,9 @@ function UpdateUserDataPage() {
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter Your email"
               value={formVal?.email}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e, setError, setFormVal);
+              }}
             />
             {error?.emailError !== "" && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -120,7 +104,9 @@ function UpdateUserDataPage() {
               name="mobile"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={formVal?.mobile}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e, setError, setFormVal);
+              }}
               placeholder="Enter Your Mobile no"
             />
             {error?.mobileError !== "" && (
@@ -142,7 +128,9 @@ function UpdateUserDataPage() {
               name="dob"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={formVal?.dob}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e, setError, setFormVal);
+              }}
             />
             {error?.dobError !== "" && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -155,7 +143,7 @@ function UpdateUserDataPage() {
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={(e) => {
-              handleSubmit(e);
+              handleSubmit(e, id, formVal, error, setError, navigate);
             }}
           >
             Update Details

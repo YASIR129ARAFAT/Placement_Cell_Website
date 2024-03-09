@@ -49,7 +49,7 @@ exports.replaceUser = async (req, res) => {
     }
 }
 exports.updateUser = asyncHandler(async (req, res) => {
-    // console.log("ddddd");
+
     const id = req.params?.id;
     const updatedValues = req.body;
 
@@ -59,7 +59,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
         const newValue = value.trim().trimStart()
         updatedValues[key] = newValue;
     }
-    // console.log('kkk');
+
     let flag = 0;
     let error = {}
     Object.entries(updatedValues).forEach(([key, value]) => {
@@ -69,9 +69,9 @@ exports.updateUser = asyncHandler(async (req, res) => {
             flag++;
         }
     });
-    
-    // console.log('kkk');
-    if (updatedValues?.mobile && updatedValues?.mobile?.length != 10) {
+
+    if (updatedValues?.mobile?.length != 10) {
+        console.log(updatedValues?.mobile?.length);
         error = { ...error, mobileError: "Invalid mobile number" }
         flag++;
     }
@@ -80,9 +80,8 @@ exports.updateUser = asyncHandler(async (req, res) => {
         return res.json({ success: 0, error });
     }
 
-    // console.log("form values",id,updatedValues);
     const user = await User.findByIdAndUpdate(id, updatedValues, { new: true });
-    res.json({success:1,user,error})
+    res.json({ success: 1, user, error })
 
 })
 exports.deleteUser = asyncHandler(async (req, res) => {
@@ -102,7 +101,7 @@ exports.getLoggedInUserDetails = asyncHandler(async (req, res) => {
     const { _id } = req.user;
 
     let data = await User.findById(_id).select(" -password -refreshToken ");
-    
+
     res.json(data);
 })
 

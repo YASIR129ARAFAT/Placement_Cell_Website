@@ -15,6 +15,7 @@ import AllAdminPage from './pages/allAdminPage.jsx'
 import EditAnnouncementsPage from "./pages/editAnnouncementsPage.jsx";
 import EditResultsPage from "./pages/EditResultsPage.jsx";
 import OtherUserProfilePage from "./pages/otherUserProfilePage.jsx";
+import UpdateUserDataPage from "./pages/updateUserDataPage.jsx";
 
 
 const router = createBrowserRouter(
@@ -32,7 +33,9 @@ const router = createBrowserRouter(
       <Route path="alladmins" element={<AllAdminPage/>}/>
       <Route path="editAnnouncement/:id" element={<EditAnnouncementsPage/>} />
       <Route path="editResults/:id" element={<EditResultsPage/>} />
+      <Route path="updateUser/:id" element={<UpdateUserDataPage/>} />
       <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} /> {/**profile of other user*/}
+
       <Route path="error" element={<>Internal server error</>}/>
     </Route>
   )

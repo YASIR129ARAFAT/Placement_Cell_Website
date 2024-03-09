@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/user.models');
 const { asyncHandler } = require('../utils/asyncHandler');
-const { log } = require('console');
-
 
 exports.getAllUser = asyncHandler(async (req, res) => {
     // console.log('hii');
@@ -31,8 +29,7 @@ exports.getAllUser = asyncHandler(async (req, res) => {
 
 })
 exports.getUser = asyncHandler(async (req, res) => {
-    const _id = req.params.id;
-    // console.log("id", _id);
+    const _id = req.params?.id;
 
     const users = await User.findById(_id).select('-password -refreshToken');
 
@@ -52,16 +49,40 @@ exports.replaceUser = async (req, res) => {
     }
 }
 exports.updateUser = asyncHandler(async (req, res) => {
-
-    const id = req.params.id;
+    // console.log("ddddd");
+    const id = req.params?.id;
     const updatedValues = req.body;
+
+
+    // trim all values of the formData
+    for (const [key, value] of Object.entries(updatedValues)) {
+        const newValue = value.trim().trimStart()
+        updatedValues[key] = newValue;
+    }
+    // console.log('kkk');
+    let flag = 0;
+    let error = {}
+    Object.entries(updatedValues).forEach(([key, value]) => {
+        if (value === "") {
+            const newKey = key.toString() + "Error";
+            error = { ...error, [newKey]: `${key} can't be empty` };
+            flag++;
+        }
+    });
+    
+    // console.log('kkk');
+    if (updatedValues?.mobile && updatedValues?.mobile?.length != 10) {
+        error = { ...error, mobileError: "Invalid mobile number" }
+        flag++;
+    }
+
+    if (flag > 0) {
+        return res.json({ success: 0, error });
+    }
+
+    // console.log("form values",id,updatedValues);
     const user = await User.findByIdAndUpdate(id, updatedValues, { new: true });
-    res.json(user)
-
-
-    // console.log(error)
-    res.sendStatus(400);
-
+    res.json({success:1,user,error})
 
 })
 exports.deleteUser = asyncHandler(async (req, res) => {

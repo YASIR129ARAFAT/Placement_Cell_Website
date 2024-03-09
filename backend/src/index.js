@@ -44,7 +44,7 @@ const { CommentsRouter } = require('./routes/comments.route.js');
 //router declaration
 server.use('/auth', authRoute);
 server.use('/api/product', authMiddleware, productRoute);
-server.use('/api/user', authMiddleware, userRoute);
+server.use('/api/user',authMiddleware, userRoute);
 server.use('/api/announcements', authMiddleware, AnnouncementsRouter); // this is route for both all announcements and results
 server.use('/api/comments',authMiddleware, CommentsRouter); //comments route
 

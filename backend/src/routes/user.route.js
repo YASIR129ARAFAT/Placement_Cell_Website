@@ -36,8 +36,7 @@ router.get('/loggedInUserDetails',getLoggedInUserDetails);
 router
 .get('/otherUserProfile/:id', getUser)
 .get('/:getAdminsOnly', getAllUser)
-.put('/:id', replaceUser)
-.patch('/:id', updateUser)
+.patch('/updateUserDetails/:id', updateUser)
 .delete('/:id', deleteUser)
 .post('/logout',logout) //auth middleware
 .post('/changePassword',changePassword)

@@ -17,6 +17,7 @@ import EditResultsPage from "./pages/EditResultsPage.jsx";
 import OtherUserProfilePage from "./pages/otherUserProfilePage.jsx";
 import UpdateUserDataPage from "./pages/updateUserDataPage.jsx";
 
+import ChangePasswordPage from "./pages/changePasswordPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
       <Route path="editAnnouncement/:id" element={<EditAnnouncementsPage/>} />
       <Route path="editResults/:id" element={<EditResultsPage/>} />
       <Route path="updateUser/:id" element={<UpdateUserDataPage/>} />
+      <Route path="changePassword" element={<ChangePasswordPage/>} />
       <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} /> {/**profile of other user*/}
 
       <Route path="error" element={<>Internal server error</>}/>

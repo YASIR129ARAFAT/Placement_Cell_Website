@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { IoReturnDownBack } from "react-icons/io5";
+
 import Sidebar from "../components/Sidebar";
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 import { getUserData } from "../services/getUserData.services";
 import { useParams, useNavigate } from "react-router-dom";
 import UserInfoCard from "../components/UserInfoCard.jsx";
+import { Link } from "react-router-dom";
 
 function otherUserProfilePage() {
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
@@ -32,7 +35,7 @@ function otherUserProfilePage() {
   return (
     <Sidebar loggedInUserDetails={loggedInUserDetails}>
       <div className="mt-20 w-full">
-        <Button
+        {/* <Button
           className={"text-gray-950 font-extrabold border-none w-6 bg-primary-50 px-1 hover:bg-blue-200"}
           type="button"
           onClick={() => {
@@ -40,8 +43,13 @@ function otherUserProfilePage() {
           }}
         >
           &#8249;
-        </Button>
-        {/* <Button className="text-black font-extrabold w-40 bg-blue-100 hover:bg-blue-400">&#8249;</Button> */}
+        </Button> */}
+        <Link
+            className="rounded-2xl m-2 p-2 "
+            to={`/alluser`}
+          >
+            <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
+          </Link>
         <UserInfoCard userData={userData}></UserInfoCard>
       </div>
     </Sidebar>

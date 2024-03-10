@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { IoReturnDownBack } from "react-icons/io5";
+
 import EditAnnouncementForm from "../components/editAnnouncementForm";
 import Sidebar from "../components/Sidebar";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import getSingleAnnouncementData from "../services/getSingleAnnouncementData.services.js";
 import { Button } from "flowbite-react";
@@ -37,7 +39,7 @@ function EditResultsPage() {
     <Sidebar loggedInUserDetails={loggedInUserDetails}>
       <div className="mt-20 w-full">
         {/**since height of nav in side bar is 20 and we need the back button jut below it */}
-        <Button
+        {/* <Button
           className=" text-black font-extrabold border-none w-[1/2] bg-blue-50 px-1 hover:bg-blue-200"
           type="button"
           onClick={() => {
@@ -45,7 +47,13 @@ function EditResultsPage() {
           }}
         >
           &#8249;
-        </Button>
+        </Button> */}
+        <Link
+            className="rounded-2xl m-2 p-2 "
+            to={`/results`}
+          >
+            <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
+          </Link>
 
         <EditAnnouncementForm
           announcement={announcement}

@@ -1,5 +1,4 @@
-const fs = require('fs')
-const jwt = require('jsonwebtoken');
+
 // const data = JSON.parse(fs.readFileSync('./data.json', 'utf-8'))
 // let users = data.users;
 
@@ -141,12 +140,45 @@ exports.logout = asyncHandler(async (req, res) => {
 
 exports.changePassword = asyncHandler(async (req, res) => {
 
-    const { oldPassword, newPassword, confirmNewPassword } = req.body;
+    const { password, newPassword, confirmNewPassword } = req.body;
+    // console.log(req.body);
+    const updatedValues = req.body
+    let flag = 0;
+    let error={}
+    Object.entries(updatedValues).forEach(([key, value]) => {
+        if (value === "") {
+            const newKey = key.toString() + "Error";
+            error = { ...error, [newKey]: `${key} can't be empty` };
+            flag++;
+        }
+    });
+
+    if(flag){
+        return res.json({
+            sucess: 0,
+            errors:error,
+            message:""
+        })
+    }
+
 
     if (newPassword !== confirmNewPassword) {
         return res.json({
             sucess: 0,
-            errorMessage: "Confirm new password and new password not matching"
+            errors:{
+                otherError: "Confirm new password and new password not matching"
+            },
+            message:""
+        })
+    }
+
+    if (password === newPassword) {
+        return res.json({
+            sucess: 0,
+            errors:{
+                otherError: "Please type a password different from current password!!"
+            },
+            message:""
         })
     }
 
@@ -156,11 +188,14 @@ exports.changePassword = asyncHandler(async (req, res) => {
     if (!user) {
         return res.json({
             sucess: 0,
-            errorMessage: "Unauthorized access"
+            errors:{
+                otherError: "Unauthorized access"
+            },
+            message:""
         })
     }
 
-    const isMatch = await User.isPasswordCorrect(oldPassword)
+    const isMatch = await user.isPasswordCorrect(password)
 
     if (isMatch === true) {
         user.password = newPassword;
@@ -169,13 +204,17 @@ exports.changePassword = asyncHandler(async (req, res) => {
             .status(200)
             .json({
                 sucess: 1,
-                successMessage: "password changed successfully!!!"
+                message: "password changed successfully!!!",
+                errors:{}
             })
     }
     else {
         return res.json({
             sucess: 0,
-            errorMessage: "Wrong old password"
+            errors: {
+                otherError:"Wrong old password"
+            },
+            message:""
         })
     }
 

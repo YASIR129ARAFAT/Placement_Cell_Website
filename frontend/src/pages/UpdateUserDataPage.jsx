@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { IoReturnDownBack } from "react-icons/io5";
 
 import Sidebar from "../components/Sidebar";
 
@@ -9,7 +10,6 @@ import {
   handleSubmit,
   handleChange,
 } from "../handlers/updateUserData.handler.js";
-
 
 function UpdateUserDataPage() {
   let navigate = useNavigate();
@@ -56,11 +56,17 @@ function UpdateUserDataPage() {
     <Sidebar loggedInUserDetails={loggedInUserDetails} className="">
       <div className="w-full mt-20">
         <div className="mb-10 ml-4">
-          <Link
+          {/* <Link
             className="hover:bg-blue-700 rounded-2xl m-2 p-2 hover:text-white"
             to={`/userprofile`}
           >
             &#8249;
+          </Link> */}
+          <Link
+            className="rounded-2xl m-2 p-2 "
+            to={`/userprofile`}
+          >
+            <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
           </Link>
         </div>
         <div className="flex flex-col items-center mb-10 text-2xl text-blue-800">

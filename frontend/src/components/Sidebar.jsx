@@ -15,7 +15,7 @@ import {
   FaArrowAltCircleRight,
 } from "react-icons/fa";
 
-function Sidebar({ children="", loggedInUserDetails={} }) {
+function Sidebar({ children = "", loggedInUserDetails = {} }) {
   const location = useLocation();
   const sidebarUncollapsedText = [
     "My Profile",
@@ -52,18 +52,17 @@ function Sidebar({ children="", loggedInUserDetails={} }) {
     else setSidebarText(sidebarUncollapsedText);
   };
 
-  let navigate = useNavigate()
-  const clickLogout = async(e)=>{
-    e.preventDefault()
+  let navigate = useNavigate();
+  const clickLogout = async (e) => {
+    e.preventDefault();
     try {
-      localStorage.setItem('token',null);
-      navigate('/')
-      alert("logged out successfull")
-      
+      localStorage.setItem("token", null);
+      navigate("/");
+      alert("logged out successfull");
     } catch (error) {
-      console.log("logout error",error);
+      console.log("logout error", error);
     }
-  }
+  };
 
   return (
     <>
@@ -84,12 +83,13 @@ function Sidebar({ children="", loggedInUserDetails={} }) {
           </a>
 
           <div className="flex flex-row items-center space-x-3">
-            <a
+            
+            <Link
               href="#"
               className="text-gray-900 rounded hover:bg-blue-700 hover:text-white dark:text-white dark:hover:text-blue-500 hidden sm:inline"
             >
               {loggedInUserDetails?.name}
-            </a>
+            </Link>
 
             <img
               className="w-12 h-12 flex rounded-full items-center justify-center border-2 border-blue-700"
@@ -142,11 +142,11 @@ function Sidebar({ children="", loggedInUserDetails={} }) {
 
             {/* sign out button */}
             <>
-              <button onClick={clickLogout} key={'/signout'}>
+              <button onClick={clickLogout} key={"/signout"}>
                 <div
                   className={`overflow-hidden py-3 w-full text-center rounded-xl hover:bg-blue-500 hover:text-white flex justify-center `}
                 >
-                  {(isCollapsed==1)?(<FaSignOutAlt/>):("sign-out")}
+                  {isCollapsed == 1 ? <FaSignOutAlt /> : "sign-out"}
                 </div>
               </button>
               <hr />

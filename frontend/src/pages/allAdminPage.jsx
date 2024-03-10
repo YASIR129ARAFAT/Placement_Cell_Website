@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileCard from "../components/ProfileCard";
+import ProfileCard from "../components/ProfileCard.jsx";
 import Sidebar from "../components/Sidebar.jsx";
 import { useState,useEffect } from "react";
 import { getAllAdmins } from "../services/getAllAdmins.services.js";

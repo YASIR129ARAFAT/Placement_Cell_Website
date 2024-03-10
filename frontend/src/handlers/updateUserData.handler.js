@@ -1,5 +1,5 @@
 
-import { updateUserDetails } from "../services/updateUserDetails.services";
+import { updateUserDetails } from "../services/updateUserDetails.services.js";
 async function handleSubmit(e, id, formVal, error, setError, navigate) {
     e.preventDefault();
 

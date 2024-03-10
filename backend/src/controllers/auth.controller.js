@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+
+
 const { User } = require('../models/user.models');
 const { asyncHandler } = require('../utils/asyncHandler.js');
-const { apiError } = require('../utils/apiError.js');
+
 
 
 exports.createUser = asyncHandler(async (req, res) => {

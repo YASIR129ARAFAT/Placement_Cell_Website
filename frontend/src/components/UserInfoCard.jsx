@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useActionData } from "react-router-dom";
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 
-function UserInfoCard({ className = "", userData }) {
+function UserInfoCard({ className = "", userData, children }) {
   const [loading, setLoading] = useState(false);
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
 
@@ -114,27 +114,30 @@ function UserInfoCard({ className = "", userData }) {
               </div>
             )}
             {/* edit details button */}
-            {userData?._id === loggedInUserDetails?._id && (
-              <Link
-                to={`/updateUser/${userData?._id}`}
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Edit details
-              </Link>
-            )}
+            <div className="flex flex-wrap w-full justify-between">
+              {userData?._id === loggedInUserDetails?._id && (
+                <Link
+                  to={`/updateUser/${userData?._id}`}
+                  className="w-30 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Edit details
+                </Link>
+              )}
 
-            {/* verify button */}
-            {userData?.isAdmin === false &&
-            loggedInUserDetails?.isAdmin === true ? (
-              <Link
-                to="/login"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Verify User
-              </Link>
-            ) : (
-              ""
-            )}
+              {/* verify button */}
+              {userData?.isAdmin === false &&
+              loggedInUserDetails?.isAdmin === true ? (
+                <Link
+                  to="/login"
+                  className="w-30 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Verify User
+                </Link>
+              ) : (
+                ""
+              )}
+              {children}
+            </div>
           </div>
         </div>
       </div>

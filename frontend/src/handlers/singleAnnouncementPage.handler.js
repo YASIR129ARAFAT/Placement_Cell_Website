@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addComment } from "../services/addComment.services";
+import { addComment } from "../services/addComment.services.js";
 const handleClick = async (e, commentMessage,setCommentMessage, setAllComments, id) => {
     e.preventDefault();
     try {

@@ -14,9 +14,9 @@ import AllUsersPage from "./pages/AllUsersPage.jsx";
 import AllAdminPage from './pages/allAdminPage.jsx' 
 import EditAnnouncementsPage from "./pages/editAnnouncementsPage.jsx";
 import EditResultsPage from "./pages/EditResultsPage.jsx";
-import OtherUserProfilePage from "./pages/otherUserProfilePage.jsx";
+import OtherUserProfilePage from "./pages/OtherUserProfilePage.jsx";
 import UpdateUserDataPage from "./pages/updateUserDataPage.jsx";
-
+import AddOpeningPage from "./pages/addOpeningPage.jsx";
 import ChangePasswordPage from "./pages/changePasswordPage.jsx";
 
 const router = createBrowserRouter(
@@ -36,6 +36,8 @@ const router = createBrowserRouter(
       <Route path="editResults/:id" element={<EditResultsPage/>} />
       <Route path="updateUser/:id" element={<UpdateUserDataPage/>} />
       <Route path="changePassword" element={<ChangePasswordPage/>} />
+      <Route path="addOpening" element={<AddOpeningPage/>} />
+
       <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} /> {/**profile of other user*/}
 
       <Route path="error" element={<>Internal server error</>}/>

@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MessageCard from "../components/MessageCard";
 import Button from "../components/Button";
 import Sidebar from "../components/Sidebar";
-
+import { useNavigate } from "react-router-dom";
+import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 function OpeningsPage({ className = "" }) {
+  const navigate = useNavigate();
   const handleClick = (e) => {
     e.preventDefault();
     console.log("rjegbhr");
   };
   const handleClick2 = (e) => {
-    console.log("hiththjt");
+    navigate("/addOpening");
   };
+  const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
+  useEffect(() => {
+    async function loadLoggedInUserDetails() {
+      try {
+        const data = await getLoggedInUserDetails();
+        setLoggedInUserDetails(data);
+      } catch (error) {}
+    }
+    loadLoggedInUserDetails();
+  }, []);
 
   const annc = [
     //from db
@@ -83,23 +95,28 @@ function OpeningsPage({ className = "" }) {
 
   return (
     <>
-      <Sidebar>
-        <div className={`h-full mt-20 w-[70%] rounded-lg p-4`}>
-          {annc.map((pp) => {
-            pp.isResultsAnnouncement = 0;
-            return (
-              <MessageCard key={pp.username} obj={pp} className="w-full">
-                <Button className="mt-4" onClick={handleClick}>
-                  Comment
-                </Button>
-              </MessageCard>
-            );
-          })}
-        </div>
+      <Sidebar loggedInUserDetails={loggedInUserDetails} className="mb-0 pb-0">
+        <>
+          {" "}
+          <div className={`h-full mt-20 w-[70%] rounded-lg p-4`}>
+            {annc.map((pp) => {
+              pp.isResultsAnnouncement = 0;
+              return (
+                <MessageCard key={pp.username} obj={pp} className="w-full">
+                  <Button className="mt-4" onClick={handleClick}>
+                    Comment
+                  </Button>
+                </MessageCard>
+              );
+            })}
+          </div>
+          <div className="ml-[87%] sticky bottom-0 bg-blue-50 left-0 w-[10%] flex justify-center pb-4 rounded-full">
+            <Button onClick={handleClick2} className="rounded-xl">
+              +
+            </Button>
+          </div>
+        </>
       </Sidebar>
-      <div className="sticky bottom-0 bg-blue-50 left-0 w-full flex justify-center pb-4 border border-t-2 border-blue-700 ">
-          <Button onClick={handleClick2} className="mt-4 w-[60%]">Announce new opening</Button>
-      </div>
     </>
   );
 }

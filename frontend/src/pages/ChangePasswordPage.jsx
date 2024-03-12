@@ -5,7 +5,7 @@ import { IoReturnDownBack } from "react-icons/io5";
 import Sidebar from "../components/Sidebar.jsx";
 
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
-import { getUserData } from "../services/getUserData.services.js";
+
 import {
   handleSubmit,
   handleChange,

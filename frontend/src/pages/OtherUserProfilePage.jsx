@@ -33,8 +33,8 @@ function otherUserProfilePage() {
     setData();
   }, []);
   return (
-    <Sidebar loggedInUserDetails={loggedInUserDetails}>
-      <div className="mt-20 w-full">
+    <Sidebar loggedInUserDetails={loggedInUserDetails} >
+      <div className="w-full">
         {/* <Button
           className={"text-gray-950 font-extrabold border-none w-6 bg-primary-50 px-1 hover:bg-blue-200"}
           type="button"

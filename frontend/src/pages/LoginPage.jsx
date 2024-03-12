@@ -32,7 +32,7 @@ function Login() {
       setFormVal({ email: "", password: "" });
       setError({ ...error, ...res.data.error });
       // window.location.href = `http://localhost:5173/allannouncements`
-      if(res?.data.success===1){
+      if(res?.data?.success===1){
         localStorage.setItem('token',res.data?.user?.token)
         navigate('/allannouncements')
       }

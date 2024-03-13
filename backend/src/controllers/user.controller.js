@@ -104,7 +104,6 @@ exports.getLoggedInUserDetails = asyncHandler(async (req, res) => {
     res.json(data);
 })
 
-
 exports.logout = asyncHandler(async (req, res) => {
     const userDataFromAuthMiddleware = req.user;
     // console.log(userDataFromAuthMiddleware?._id)

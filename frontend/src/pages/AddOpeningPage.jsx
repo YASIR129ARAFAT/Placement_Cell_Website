@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { IoMdDoneAll } from "react-icons/io";
+
 import { MdDelete } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
+import { addOpening } from "../services/addOpening.services.js";
 
 const AddOpeningPage = () => {
   const [offerType, setOfferType] = useState("");
@@ -11,43 +14,83 @@ const AddOpeningPage = () => {
   const [ctc, setCtc] = useState("");
   const [location, setLocation] = useState("");
   const [branchesAllowed, setBranchesAllowed] = useState("");
-  const [cgpaCriteria, setCgpaCriteria] = useState([{branch:"",cgpa:""}]);
+  const [cgpaCriteria, setCgpaCriteria] = useState([{ branch: "", cgpa: "" }]);
   const [applicationDeadline, setApplicationDeadline] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [loggedInUserDetails,setLoggedInUserDetails] = useState({})
 
+  const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
+
+  const intialErrorMessage = {
+    offerTypeError: "ot",
+    companyNameError: "cn",
+    internshipDurationError: "id",
+    stipendPerMonthError: "spm",
+    ctcError: "ctc",
+    locationError: "loc",
+    branchesAllowedError: "braAll",
+    cgpaCriteriaError: "cgpaC",
+    applicationDeadlineError: "appdead",
+    additionalInfoError: "addiInf",
+  };
+  const [errorMessage, setErrorMessage] = useState(intialErrorMessage);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  setTimeout(() => {
+    setSuccessMessage("");
+  }, 5000);
   const handleOfferTypeChange = (e) => {
     setOfferType(e.target.value);
     console.log(offerType);
   };
   const handleCompanyNameChange = (e) => {
     setCompanyName(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, companyNameError: "" };
+    });
   };
 
   const handleInternshipDurationChange = (e) => {
     setInternshipDuration(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, internshipDurationError: "" };
+    });
   };
 
   const handleStipendPerMonthChange = (e) => {
     setStipendPerMonth(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, stipendPerMonthError: "" };
+    });
   };
 
   const handleCtcChange = (e) => {
     setCtc(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, ctcError: "" };
+    });
   };
 
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, locationError: "" };
+    });
   };
 
   const handleBranchesAllowedChange = (e) => {
     setBranchesAllowed(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, branchesAllowedError: "" };
+    });
   };
 
   const handleCgpaCriteriaChange = (index, branch, cgpa) => {
     const updatedCgpaCriteria = [...cgpaCriteria];
     updatedCgpaCriteria[index] = { branch, cgpa };
     setCgpaCriteria(updatedCgpaCriteria);
+    setErrorMessage((prev) => {
+      return { ...prev, cgpaCriteriaError: "" };
+    });
   };
 
   const addCgpaCriteriaField = () => {
@@ -58,65 +101,101 @@ const AddOpeningPage = () => {
     const updatedCgpaCriteria = [...cgpaCriteria];
     updatedCgpaCriteria.splice(index, 1);
     setCgpaCriteria(updatedCgpaCriteria);
+    setErrorMessage((prev) => {
+      return { ...prev, cgpaCriteriaError: "" };
+    });
   };
 
   const handleApplicationDeadlineChange = (e) => {
     setApplicationDeadline(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, applicationDeadlineError: "" };
+    });
   };
 
   const handleAdditionalInfoChange = (e) => {
     setAdditionalInfo(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      companyName,
-      offerType,
-      internshipDuration,
-      stipendPerMonth,
-      ctc,
-      location,
-      branchesAllowed,
-      cgpaCriteria,
-      applicationDeadline,
-      additionalInfo,
+    setErrorMessage((prev) => {
+      return { ...prev, additionalInfoError: "" };
     });
   };
 
-  useEffect(()=>{
-    async function loadLoggedInUserDetails(){
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("inside handler");
+
+    try {
+      const data = await addOpening({
+        companyName,
+        offerType,
+        internshipDuration,
+        stipendPerMonth,
+        ctc,
+        location,
+        branchesAllowed,
+        cgpaCriteria,
+        applicationDeadline,
+        additionalInfo,
+      });
+      console.log("data from handler",data);
+      if(data?.success===0){
+        setErrorMessage((prev)=>{
+          return {...prev,...data?.error}
+        })
+      }
+    } catch (error) {
+      console.log("from handleSubmit of add opening", error);
+    }
+  };
+
+  useEffect(() => {
+    async function loadLoggedInUserDetails() {
       try {
-        const data = await getLoggedInUserDetails()
-        setLoggedInUserDetails(data)
+        const data = await getLoggedInUserDetails();
+        setLoggedInUserDetails(data);
       } catch (error) {
         console.log(error);
       }
     }
-    loadLoggedInUserDetails()
-  },[])
+    loadLoggedInUserDetails();
+  }, []);
 
   return (
     <Sidebar loggedInUserDetails={loggedInUserDetails}>
+      {successMessage !== "" && (
+        <p className=" sticky top-20 bg-green-100 w-full p-2 ml-4 flex flex-row text-black dark:text-black">
+          <IoMdDoneAll size={20} color="green" />
+          {successMessage}
+        </p>
+      )}
       <form
         onSubmit={handleSubmit}
         className="mt-20 max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md"
       >
-        <div className="flex flex-col text-blue-700 text-xl items-center">Add Opening</div>
+        <div className="flex flex-col text-blue-700 text-xl items-center">
+          Add Opening
+        </div>
         <div className="mb-4">
-        <label
+          <label
             htmlFor="companyName"
             className="block text-gray-700 font-bold mb-2"
-          >Company Name</label>
-        <input 
+          >
+            Company Name
+          </label>
+          <input
             type="text"
             name="companyName"
             id="companyName"
             value={companyName}
             onChange={handleCompanyNameChange}
             className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600 mb-2"
-        />
+          />
+          {errorMessage.companyNameError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.companyNameError}
+            </p>
+          )}
           <label
             htmlFor="offerType"
             className="block text-gray-700 font-bold mb-2"
@@ -132,12 +211,18 @@ const AddOpeningPage = () => {
             <option value="">Select Offer Type</option>
             <option value="Internship">Internship</option>
             <option value="Full-time">Full-time</option>
-            <option value="Internship+Full-time">Internship + Full-time</option>
+            <option value="Internship + Full-time">Internship + Full-time</option>
           </select>
+          {errorMessage.offerTypeError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.offerTypeError}
+            </p>
+          )}
         </div>
 
         {(offerType === "Internship" ||
-          offerType === "Internship+Full-time") && (
+          offerType === "Internship + Full-time") && (
           <div className="mb-4">
             <label
               htmlFor="internshipDuration"
@@ -152,11 +237,17 @@ const AddOpeningPage = () => {
               onChange={handleInternshipDurationChange}
               className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
             />
+            {errorMessage.internshipDurationError !== "" && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">Oops!</span>{" "}
+                {errorMessage.internshipDurationError}
+              </p>
+            )}
           </div>
         )}
 
         {(offerType === "Internship" ||
-          offerType === "Internship+Full-time") && (
+          offerType === "Internship + Full-time") && (
           <div className="mb-4">
             <label
               htmlFor="stipendPerMonth"
@@ -171,11 +262,17 @@ const AddOpeningPage = () => {
               onChange={handleStipendPerMonthChange}
               className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
             />
+            {errorMessage.stipendPerMonthError !== "" && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">Oops!</span>{" "}
+                {errorMessage.stipendPerMonthError}
+              </p>
+            )}
           </div>
         )}
 
         {(offerType === "Full-time" ||
-          offerType === "Internship+Full-time") && (
+          offerType === "Internship + Full-time") && (
           <div className="mb-4">
             <label htmlFor="ctc" className="block text-gray-700 font-bold mb-2">
               CTC:
@@ -187,6 +284,12 @@ const AddOpeningPage = () => {
               onChange={handleCtcChange}
               className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
             />
+            {errorMessage.ctcError !== "" && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">Oops!</span>{" "}
+                {errorMessage.ctcError}
+              </p>
+            )}
           </div>
         )}
 
@@ -204,6 +307,12 @@ const AddOpeningPage = () => {
             onChange={handleLocationChange}
             className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
           />
+          {errorMessage.locationError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.locationError}
+            </p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -221,6 +330,12 @@ const AddOpeningPage = () => {
             placeholder="Ex: IT,ECE,IT-BI"
             className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
           />
+          {errorMessage.branchesAllowedError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.branchesAllowedError}
+            </p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -288,6 +403,12 @@ const AddOpeningPage = () => {
           >
             Add CGPA Criteria
           </button>
+          {errorMessage.cgpaCriteriaError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.cgpaCriteriaError}
+            </p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -304,6 +425,12 @@ const AddOpeningPage = () => {
             onChange={handleApplicationDeadlineChange}
             className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
           />
+          {errorMessage.applicationDeadlineError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.applicationDeadlineError}
+            </p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -319,12 +446,19 @@ const AddOpeningPage = () => {
             onChange={handleAdditionalInfoChange}
             className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
           />
+          {errorMessage.additionalInfoError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.additionalInfoError}
+            </p>
+          )}
         </div>
 
         <div className="flex justify-center">
           <button
             type="submit"
             className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSubmit}
           >
             Add Opening
           </button>

@@ -11,7 +11,7 @@ async function addOpening(formData) {
             }
         )
 
-        console.log("data from services ",response?.data);
+        // console.log("data from services ",response?.data);
         return response?.data
     } catch (error) {
         console.log("error from addOpening services", error);

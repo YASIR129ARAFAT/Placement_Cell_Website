@@ -51,7 +51,7 @@ const addOpening = asyncHandler(async (req, res) => {
         error = { ...error, locationError: "Location can't be empty" }
         flag++;
     }
-    if (branchesAllowed === "") {
+    if (branchesAllowed.length === 0) {
         error = { ...error, branchesAllowedError: "Branches allowed can't be empty" }
         flag++;
     }
@@ -68,9 +68,7 @@ const addOpening = asyncHandler(async (req, res) => {
             }
         })
     }
-    else {
-        cgpaCriteria = null;
-    }
+    
     if (applicationDeadline === "") {
         error = { ...error, applicationDeadlineError: "Application deadline can't be empty" }
         flag++;
@@ -96,6 +94,10 @@ const addOpening = asyncHandler(async (req, res) => {
         if (internshipDuration === "") { // duration in months
             flag++;
             error = { ...error, internshipDurationError: "Internship duration can't be empty" }
+        }
+        if (internshipDuration <= 0) { // duration in months
+            flag++;
+            error = { ...error, internshipDurationError: "Internship duration can't be less than zero" }
         }
         if (stipendPerMonth === "") { // duration in thousands
             flag++;

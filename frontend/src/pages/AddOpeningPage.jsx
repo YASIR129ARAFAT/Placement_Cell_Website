@@ -13,31 +13,30 @@ const AddOpeningPage = () => {
   const [stipendPerMonth, setStipendPerMonth] = useState("");
   const [ctc, setCtc] = useState("");
   const [location, setLocation] = useState("");
-  const [branchesAllowed, setBranchesAllowed] = useState("");
-  const [cgpaCriteria, setCgpaCriteria] = useState([{ branch: "", cgpa: "" }]);
+  const [branchesAllowed, setBranchesAllowed] = useState([]);
+  const [cgpaCriteria, setCgpaCriteria] = useState([]);
   const [applicationDeadline, setApplicationDeadline] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
 
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
 
   const intialErrorMessage = {
-    offerTypeError: "ot",
-    companyNameError: "cn",
-    internshipDurationError: "id",
-    stipendPerMonthError: "spm",
-    ctcError: "ctc",
-    locationError: "loc",
-    branchesAllowedError: "braAll",
-    cgpaCriteriaError: "cgpaC",
-    applicationDeadlineError: "appdead",
-    additionalInfoError: "addiInf",
+    offerTypeError: "",
+    companyNameError: "",
+    internshipDurationError: "",
+    stipendPerMonthError: "",
+    ctcError: "",
+    locationError: "",
+    branchesAllowedError: "",
+    cgpaCriteriaError: "",
+    applicationDeadlineError: "",
+    additionalInfoError: "",
   };
   const [errorMessage, setErrorMessage] = useState(intialErrorMessage);
   const [successMessage, setSuccessMessage] = useState("");
 
-  setTimeout(() => {
-    setSuccessMessage("");
-  }, 5000);
+  
+
   const handleOfferTypeChange = (e) => {
     setOfferType(e.target.value);
     console.log(offerType);
@@ -137,11 +136,29 @@ const AddOpeningPage = () => {
         applicationDeadline,
         additionalInfo,
       });
-      console.log("data from handler",data);
-      if(data?.success===0){
-        setErrorMessage((prev)=>{
-          return {...prev,...data?.error}
-        })
+
+      console.log("data from handler", data);
+
+      if (data?.success === 0) {
+        setErrorMessage((prev) => {
+          return { ...prev, ...data?.error };
+        });
+      } else {
+        setOfferType("");
+        setCompanyName("");
+        setInternshipDuration("");
+        setStipendPerMonth("");
+        setCtc("");
+        setLocation("");
+        setBranchesAllowed([]);
+        setCgpaCriteria([]);
+        setApplicationDeadline("");
+        setAdditionalInfo("");
+
+        setSuccessMessage("Added Successfully");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 5000);
       }
     } catch (error) {
       console.log("from handleSubmit of add opening", error);
@@ -170,7 +187,7 @@ const AddOpeningPage = () => {
       )}
       <form
         onSubmit={handleSubmit}
-        className="mt-20 max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md"
+        className="mt-20 w-[50%] mx-auto p-6 bg-white shadow-md rounded-md"
       >
         <div className="flex flex-col text-blue-700 text-xl items-center">
           Add Opening
@@ -211,7 +228,9 @@ const AddOpeningPage = () => {
             <option value="">Select Offer Type</option>
             <option value="Internship">Internship</option>
             <option value="Full-time">Full-time</option>
-            <option value="Internship + Full-time">Internship + Full-time</option>
+            <option value="Internship + Full-time">
+              Internship + Full-time
+            </option>
           </select>
           {errorMessage.offerTypeError !== "" && (
             <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -232,9 +251,10 @@ const AddOpeningPage = () => {
             </label>
             <input
               id="internshipDuration"
-              type="text"
+              type="number"
               value={internshipDuration}
               onChange={handleInternshipDurationChange}
+              placeholder="in months"
               className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
             />
             {errorMessage.internshipDurationError !== "" && (
@@ -260,6 +280,7 @@ const AddOpeningPage = () => {
               type="number"
               value={stipendPerMonth}
               onChange={handleStipendPerMonthChange}
+              placeholder="In thousands per month"
               className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
             />
             {errorMessage.stipendPerMonthError !== "" && (
@@ -282,6 +303,7 @@ const AddOpeningPage = () => {
               type="number"
               value={ctc}
               onChange={handleCtcChange}
+              placeholder="In LPA"
               className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
             />
             {errorMessage.ctcError !== "" && (

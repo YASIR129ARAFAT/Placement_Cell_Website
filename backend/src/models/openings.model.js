@@ -10,15 +10,15 @@ const openingSchema = new Schema({
     companyName: { type: String, required: true },
     offerType: {
         type: String,
-        enum: ["Internship", "Full-time", "Internship+Full-time"],
+        enum: ["Internship", "Full-time", "Internship + Full-time"],
         required: true
     },
     internship: {
         duration: String,
-        stipendPerMonth: Number
+        stipendPerMonth: Number,
     },
     fullTime: {
-        ctc: Number
+        ctc: Number,
     },
     cgpaCriteria: [{
         branch: {

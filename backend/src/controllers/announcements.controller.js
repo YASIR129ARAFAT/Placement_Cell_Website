@@ -19,7 +19,7 @@ exports.getAllAnnouncements = asyncHandler(async (req, res) => {
     const allAnnouncements = await Announcement
         .find({ isResults: isResults })
         .select("+formattedTime +formattedDate")
-        .sort({ createdAt: -1 })
+        .sort({ updatedAt: -1 })
         .exec()
 
     // console.log("allAnnouncements");

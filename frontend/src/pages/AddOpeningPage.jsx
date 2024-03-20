@@ -15,7 +15,9 @@ const AddOpeningPage = () => {
   const [location, setLocation] = useState("");
   const [branchesAllowed, setBranchesAllowed] = useState([]);
   const [cgpaCriteria, setCgpaCriteria] = useState([]);
+  const [testDateAndTime, setTestDateAndTime] = useState("");
   const [applicationDeadline, setApplicationDeadline] = useState("");
+  const [formLink, setFormLink] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
 
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
@@ -29,13 +31,14 @@ const AddOpeningPage = () => {
     locationError: "",
     branchesAllowedError: "",
     cgpaCriteriaError: "",
+    testDateAndTimeError: "",
     applicationDeadlineError: "",
+    formLinkError:"",
     additionalInfoError: "",
   };
   const [errorMessage, setErrorMessage] = useState(intialErrorMessage);
   const [successMessage, setSuccessMessage] = useState("");
 
-  
 
   const handleOfferTypeChange = (e) => {
     setOfferType(e.target.value);
@@ -111,11 +114,23 @@ const AddOpeningPage = () => {
       return { ...prev, applicationDeadlineError: "" };
     });
   };
+  const handleTestDateAndTimeChange = (e) => {
+    setTestDateAndTime(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, testDateAndTimeError: "" };
+    });
+  };
 
   const handleAdditionalInfoChange = (e) => {
     setAdditionalInfo(e.target.value);
     setErrorMessage((prev) => {
       return { ...prev, additionalInfoError: "" };
+    });
+  };
+  const handleFormLinkChange = (e) => {
+    setFormLink(e.target.value);
+    setErrorMessage((prev) => {
+      return { ...prev, formLinkError: "" };
     });
   };
 
@@ -133,7 +148,9 @@ const AddOpeningPage = () => {
         location,
         branchesAllowed,
         cgpaCriteria,
+        testDateAndTime,
         applicationDeadline,
+        formLink,
         additionalInfo,
       });
 
@@ -152,7 +169,9 @@ const AddOpeningPage = () => {
         setLocation("");
         setBranchesAllowed([]);
         setCgpaCriteria([]);
+        setTestDateAndTime("");
         setApplicationDeadline("");
+        setFormLink("");
         setAdditionalInfo("");
 
         setSuccessMessage("Added Successfully");
@@ -327,6 +346,7 @@ const AddOpeningPage = () => {
             type="text"
             value={location}
             onChange={handleLocationChange}
+            placeholder={`'Not Specified' if not specified`}
             className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
           />
           {errorMessage.locationError !== "" && (
@@ -435,6 +455,29 @@ const AddOpeningPage = () => {
 
         <div className="mb-4">
           <label
+            htmlFor="formLink"
+            className="block text-gray-700 font-bold mb-2"
+          >
+            Form Link:
+          </label>
+          <input
+            id="formLink"
+            type="text"
+            value={formLink}
+            onChange={handleFormLinkChange}
+            placeholder="enter form link"
+            className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
+          />
+          {errorMessage.formLinkError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.formLinkError}
+            </p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label
             htmlFor="applicationDeadline"
             className="block text-gray-700 font-bold mb-2"
           >
@@ -451,6 +494,28 @@ const AddOpeningPage = () => {
             <p className="mt-2 text-sm text-red-600 dark:text-red-500">
               <span className="font-medium">Oops!</span>{" "}
               {errorMessage.applicationDeadlineError}
+            </p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="testDateAndTime"
+            className="block text-gray-700 font-bold mb-2"
+          >
+            Test date and Time:
+          </label>
+          <input
+            id="testDateAndTime"
+            type="datetime-local"
+            value={testDateAndTime}
+            onChange={handleTestDateAndTimeChange}
+            className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-primary-600 focus:border-primary-600"
+          />
+          {errorMessage.testDateAndTimeError !== "" && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span className="font-medium">Oops!</span>{" "}
+              {errorMessage.testDateAndTimeError}
             </p>
           )}
         </div>

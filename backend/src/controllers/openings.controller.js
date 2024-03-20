@@ -1,11 +1,15 @@
-const Opening = require("../models/openings.model");
-const { asyncHandler } = require("../utils/asyncHandler");
+const Opening = require("../models/openings.model.js");
+const { asyncHandler } = require("../utils/asyncHandler.js");
+const {User} = require('../models/user.models.js');
+const { Comment } = require("../models/comments.model.js");
+
+
 
 const addOpening = asyncHandler(async (req, res) => {
     const formData = req.body;
     const announcer = req?.user?._id;
-    console.log(formData);
-    console.log(announcer);
+    console.log("form form: \n",formData);
+    // console.log(announcer);
 
     let {
         companyName,
@@ -16,6 +20,8 @@ const addOpening = asyncHandler(async (req, res) => {
         location,
         branchesAllowed,
         cgpaCriteria,
+        testDateAndTime,
+        formLink,
         applicationDeadline,
         additionalInfo
     } = formData
@@ -26,7 +32,7 @@ const addOpening = asyncHandler(async (req, res) => {
      * non empty fields should be
      *  companyName,
         offerType,
-        location,
+        location, // if location is not given by company in form the value will of 
         branchesAllowed,
         cgpaCriteria,
         applicationDeadline,
@@ -51,6 +57,10 @@ const addOpening = asyncHandler(async (req, res) => {
         error = { ...error, locationError: "Location can't be empty" }
         flag++;
     }
+    if(formLink===""){
+        error = { ...error, formLinkError: "Form Link can't be empty" }
+        flag++;
+    }
     if (branchesAllowed.length === 0) {
         error = { ...error, branchesAllowedError: "Branches allowed can't be empty" }
         flag++;
@@ -68,16 +78,16 @@ const addOpening = asyncHandler(async (req, res) => {
             }
         })
     }
-    
+
     if (applicationDeadline === "") {
         error = { ...error, applicationDeadlineError: "Application deadline can't be empty" }
         flag++;
     }
 
 
+    const formattedBranchesAllowed = (branchesAllowed.length !==0)?(branchesAllowed.split(",")):([]);
 
 
-    const formattedBranchesAllowed = branchesAllowed.split(",");
     formattedBranchesAllowed.map((ele, ind) => {
         const newEle = ele.trim()
         formattedBranchesAllowed[ind] = newEle;
@@ -122,6 +132,8 @@ const addOpening = asyncHandler(async (req, res) => {
                 location,
                 branchesAllowed: formattedBranchesAllowed,
                 applicationDeadline,
+                formLink,
+                testDateAndTime,
                 additionalInfo
             }
 
@@ -159,6 +171,8 @@ const addOpening = asyncHandler(async (req, res) => {
                 location,
                 branchesAllowed: formattedBranchesAllowed,
                 applicationDeadline,
+                formLink,
+                testDateAndTime,
                 additionalInfo
             }
 
@@ -206,6 +220,8 @@ const addOpening = asyncHandler(async (req, res) => {
                 location,
                 branchesAllowed: formattedBranchesAllowed,
                 applicationDeadline,
+                formLink,
+                testDateAndTime,
                 additionalInfo
             }
 
@@ -230,8 +246,46 @@ const addOpening = asyncHandler(async (req, res) => {
 
 })
 
-const hi = asyncHandler(async (req, res) => {
-    res.json({ hiiiii: "jjj" })
+// const hi = asyncHandler(async (req, res) => {
+//     res.json({ hiiiii: "jjj" })
+// })
+
+const getAllOpenings = asyncHandler(async (req, res) => {
+
+    const allOpenings = await Opening
+        .find()
+        .sort({ updatedAt: -1 })
+        .exec()
+
+        //why populate is not working
+
+    let newAllOpenings = [];
+    for (let obj of allOpenings) {
+        obj = obj?.toObject()
+        const announcer = await User
+                            .findById({_id:obj?.announcer})
+                            .select("-password -refreshToken ")
+                            .exec()
+        const newObj = {...obj,announcer:announcer}
+
+        newAllOpenings.push(newObj);
+    }
+
+    res.json({ success: 1, allOpenings: newAllOpenings })
+
+
 })
 
-module.exports = { addOpening, hi }
+const deleteOpening = asyncHandler(async(req,res)=>{
+    const _id = req.params?._id;
+
+    //delete all the comments related to this opening 
+    const comment = await Comment.deleteMany({announcementId:_id})
+
+    const opening = await Opening.findByIdAndDelete({_id});
+
+    res.json({success:1,message:"Deleted Successsfully!!"})
+
+})
+
+module.exports = { addOpening, getAllOpenings,deleteOpening }

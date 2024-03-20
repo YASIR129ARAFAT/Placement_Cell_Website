@@ -10,7 +10,7 @@ const handleClick = async (e, formContent,announcement, navigate) => {
     try {
         // console.log(formContent);
         const res = await updateAnnouncement(formContent,announcement?._id); // id of the announcement
-        navigate('/allResults')
+        navigate('/results')
         // console.log("submit",res);
     } catch (error) {
         console.log(error);

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const openingSchema = new Schema({
+const OpeningSchema = new Schema({
     announcer: {
         type: mongoose.Schema.ObjectId,
         ref: 'User', // Reference to the User model assuming User is another model in your application
@@ -14,11 +14,11 @@ const openingSchema = new Schema({
         required: true
     },
     internship: {
-        duration: String,
+        duration: Number, // in months
         stipendPerMonth: Number,
     },
-    fullTime: {
-        ctc: Number,
+    fullTime: { 
+        ctc: Number, // in lpa
     },
     cgpaCriteria: [{
         branch: {
@@ -30,7 +30,8 @@ const openingSchema = new Schema({
             required: true
         }
     }],
-    location: { type: String, default:"Not Specified"},
+    location: { type: String, required: true },
+    formLink:{type:String, required:true},
     branchesAllowed: {
         type: [String],
         validate: {
@@ -40,12 +41,78 @@ const openingSchema = new Schema({
             message: props => `${props.value} is not a valid value for branchesAllowed. branchesAllowed should have at least one element.`
         }
     },
-    applicationDeadline: {type:Date,required:true},
-    additionalInfo: { type: String, required: true }
+    testDateAndTime: { type: Date, default: null },
+    applicationDeadline: { type: Date, required: true },
+    additionalInfo: { type: String, default:"" }
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
-const Opening = mongoose.model('Opening', openingSchema);
+//arrow function cant be used below because it does not have the access to 'this' pointer 
+OpeningSchema.virtual('formattedApplicationDeadlineDate').get(function () {
+    let date = this?.applicationDeadline;
+    if (date) {
+        date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
+        return date;
+    }
+    else {
+        return null;
+    }
+})
+OpeningSchema.virtual('formattedApplicationDeadlineTime').get(function () {
+    let time = this?.applicationDeadline;
+    if (time) {
+        time = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+        return time;
+    }
+    else {
+        return null;
+    }
+})
+// virtual attributes for testDateAndTime
+OpeningSchema.virtual("formattedTestDate").get(function () {
+    let date = this?.testDateAndTime;
+    if (date) {
+        date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
+        return date;
+    }
+    else {
+        return null;
+    }
+
+})
+OpeningSchema.virtual("formattedTestTime").get(function () {
+    let time = this?.testDateAndTime;
+    if (time) {
+        time = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+        return time;
+    }
+    else {
+        return null;
+    }
+})
+
+OpeningSchema.virtual("formattedUpdateDate").get(function(){
+    let date = this?.updatedAt
+    if(date){
+        date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
+        return date;
+    }else{
+        return null;
+    }
+})
+OpeningSchema.virtual("formattedUpdateTime").get(function(){
+    let time = this?.updatedAt
+    if(time){
+        time = time.toLocaleTimeString([],{hour:'2-digit',minute:"2-digit",hour12:true})
+        return time;
+    }else{
+        return null;
+    }
+})
+
+const Opening = mongoose.model('Opening', OpeningSchema);
 
 module.exports = Opening;

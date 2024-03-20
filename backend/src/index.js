@@ -14,6 +14,7 @@ dotenv.config({
 
 const { dbConnection } = require('./db/connection.db.js')
 const { authMiddleware } = require('./middlewares/auth.middleware.js')
+const {isAdminMiddleware} = require('./middlewares/isAdmin.middleware.js')
 
 //db connection
 dbConnection().catch((err) => {
@@ -48,7 +49,7 @@ server.use('/api/product', authMiddleware, productRoute);
 server.use('/api/user',authMiddleware, userRoute);
 server.use('/api/announcements', authMiddleware, AnnouncementsRouter); // this is route for both all announcements and results
 server.use('/api/comments',authMiddleware, CommentsRouter); //comments route
-server.use('/api/opening',authMiddleware,OpeningsRouter)
+server.use('/api/opening',OpeningsRouter)
 
 
 server.listen(process.env.PORT, (error) => {

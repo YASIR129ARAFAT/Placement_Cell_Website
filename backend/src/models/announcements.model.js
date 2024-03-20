@@ -16,6 +16,7 @@ const AnnouncementSchema = new Schema(
     }
 )
 
+//arrow function cant be used below because it does not have the access to 'this' pointer 
 AnnouncementSchema.virtual('formattedTime').get(function(){
     let time = this?.updatedAt;
     time = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
@@ -23,7 +24,7 @@ AnnouncementSchema.virtual('formattedTime').get(function(){
 })
 AnnouncementSchema.virtual('formattedDate').get(function(){
     let date = this?.updatedAt;
-    date = date.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit', year:'numeric'})
+    date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
     return date;
 })
 

@@ -16,7 +16,7 @@ const CommentsSchema = new Schema(
 )
 CommentsSchema.virtual('formattedDate').get(function(){
     let date = this?.updatedAt;
-    date = date.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
+    date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
 
     return date
 })

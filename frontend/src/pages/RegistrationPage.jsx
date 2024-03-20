@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { IoMdDoneAll } from "react-icons/io";
 
 import {
   initialRegistrationErrorMessage,
@@ -32,7 +33,10 @@ function Registration() {
 
       if (res?.data?.successMessage) {
         // console.log(res.data.successMessage)
-        setSuccessMessage(res?.data?.successMessage);
+        setSuccessMessage("User registrated succesfully!!");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 5000);
       }
 
 
@@ -44,9 +48,7 @@ function Registration() {
     }
   }
 
-  setTimeout(() => {
-    setSuccessMessage("");
-  }, 5000);
+  
 
   const handleChange = (e) => {
     console.log(formData);
@@ -58,8 +60,15 @@ function Registration() {
     setErrorMessage({ ...errorMessage, [new_key]: "" });
   };
   return (
-    <section className="w-full pt-10 bg-gray-50 dark:bg-gray-900">
-      <div className="w-full flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-max lg:py-0">
+    <section className="w-full pt-0 bg-white-50 dark:bg-gray-900">
+      {successMessage !== "" && (
+        <p className=" sticky top-0 bg-green-200 w-full p-2 flex flex-row text-black dark:text-black">
+          <IoMdDoneAll size={20} color="green" />
+          {successMessage}
+        </p>
+      )}
+      <div className="w-full mt-10 flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-max lg:py-0">
+      
         <Link
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
@@ -71,11 +80,7 @@ function Registration() {
           />
           Flowbite
         </Link>
-        {successMessage !== "" && (
-          <p className="mt-2 mb-2 text-base text-red-600 dark:text-red-500">
-            <span className="font-medium">hurrrayy!</span> {successMessage}
-          </p>
-        )}
+        
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

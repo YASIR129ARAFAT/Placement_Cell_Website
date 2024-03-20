@@ -1,7 +1,5 @@
 import "./App.css";
 
-import { RouterProvider,Route,createRoutesFromElements, createBrowserRouter } from "react-router-dom";
-
 import Login from "./pages/LoginPage.jsx";
 import Registration from "./pages/RegistrationPage.jsx";
 import ProfileCard from "./components/ProfileCard";
@@ -18,6 +16,8 @@ import OtherUserProfilePage from "./pages/OtherUserProfilePage.jsx";
 import UpdateUserDataPage from "./pages/updateUserDataPage.jsx";
 import AddOpeningPage from "./pages/addOpeningPage.jsx";
 import ChangePasswordPage from "./pages/changePasswordPage.jsx";
+
+import { RouterProvider,Route,createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

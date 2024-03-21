@@ -276,6 +276,17 @@ const getAllOpenings = asyncHandler(async (req, res) => {
 
 })
 
+const getSingleOpening = asyncHandler(async(req,res)=>{
+    const _id = req.params?._id
+    let opening = Opening
+                    .findById(_id)
+                    .populate("Announcer","name email userType")
+    
+    opening = opening.toObject()
+
+    res.json({success:1,opening})
+})
+
 const deleteOpening = asyncHandler(async(req,res)=>{
     const _id = req.params?._id;
 
@@ -288,4 +299,4 @@ const deleteOpening = asyncHandler(async(req,res)=>{
 
 })
 
-module.exports = { addOpening, getAllOpenings,deleteOpening }
+module.exports = { addOpening, getAllOpenings,deleteOpening,getSingleOpening }

@@ -5,7 +5,8 @@ const router = express.Router();
 const {
     addOpening,
     getAllOpenings,
-    deleteOpening
+    deleteOpening,
+    getSingleOpening
 } = require('../controllers/openings.controller.js');
 
 
@@ -21,6 +22,7 @@ router
     .post('/addOpening', authMiddleware, isAdminMiddleware, addOpening)
     .get('/getAllOpenings', authMiddleware, getAllOpenings)
     .delete('/deleteOpening/:_id', authMiddleware, deleteOpening)
+    .get('/getSingleOpening/:_id',getSingleOpening)
 
 
 exports.OpeningsRouter = router

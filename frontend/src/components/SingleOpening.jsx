@@ -42,7 +42,7 @@ function SingleOpening({ className = "", children, obj }) {
             </div>
             <div className="ml-4">
               <b>CTC: </b>
-              {obj?.fullTime?.ctc}
+              {obj?.fullTime?.ctc} LPA
             </div>
           </div>
         )}

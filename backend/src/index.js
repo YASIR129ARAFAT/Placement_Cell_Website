@@ -36,7 +36,7 @@ server.use(express.static('public'));
 
 
 // routers import
-const { productRoute } = require('./routes/product.route.js')
+
 const { userRoute } = require('./routes/user.route.js')
 const { authRoute } = require('./routes/auth.route.js');
 const { AnnouncementsRouter } = require('./routes/announcements.route.js');
@@ -45,7 +45,6 @@ const { OpeningsRouter } = require('./routes/openings.route.js');
 
 //router declaration
 server.use('/auth', authRoute);
-server.use('/api/product', authMiddleware, productRoute);
 server.use('/api/user',authMiddleware, userRoute);
 server.use('/api/announcements', authMiddleware, AnnouncementsRouter); // this is route for both all announcements and results
 server.use('/api/comments',authMiddleware, CommentsRouter); //comments route

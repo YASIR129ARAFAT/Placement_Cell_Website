@@ -74,6 +74,12 @@ OpeningSchema.virtual('formattedApplicationDeadlineTime').get(function () {
 // virtual attributes for testDateAndTime
 OpeningSchema.virtual("formattedTestDate").get(function () {
     let date = this?.testDateAndTime;
+    /**
+     * for populating if virtual attribute is not selected then it will give an error
+        because mongodb will try to add virtual object from some object which is not present in
+        the result
+     * to avoid this always add a conditional check in before creating a virtual object
+     */
     if (date) {
         date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
         return date;
@@ -85,6 +91,12 @@ OpeningSchema.virtual("formattedTestDate").get(function () {
 })
 OpeningSchema.virtual("formattedTestTime").get(function () {
     let time = this?.testDateAndTime;
+    /**
+     * for populating if virtual attribute is not selected then it will give an error
+        because mongodb will try to add virtual object from some object which is not present in
+        the result
+     * to avoid this always add a conditional check in before creating a virtual object
+     */
     if (time) {
         time = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
         return time;
@@ -96,6 +108,12 @@ OpeningSchema.virtual("formattedTestTime").get(function () {
 
 OpeningSchema.virtual("formattedUpdateDate").get(function(){
     let date = this?.updatedAt
+    /**
+     * for populating if virtual attribute is not selected then it will give an error
+        because mongodb will try to add virtual object from some object which is not present in
+        the result
+     * to avoid this always add a conditional check in before creating a virtual object
+     */
     if(date){
         date = date.toLocaleDateString('en-GB',{day:'numeric',month:"short",year:"numeric"})
         return date;
@@ -105,6 +123,12 @@ OpeningSchema.virtual("formattedUpdateDate").get(function(){
 })
 OpeningSchema.virtual("formattedUpdateTime").get(function(){
     let time = this?.updatedAt
+    /**
+     * for populating if virtual attribute is not selected then it will give an error
+        because mongodb will try to add virtual object from some object which is not present in
+        the result
+     * to avoid this always add a conditional check in before creating a virtual object
+     */
     if(time){
         time = time.toLocaleTimeString([],{hour:'2-digit',minute:"2-digit",hour12:true})
         return time;

@@ -279,19 +279,13 @@ const getAllOpenings = asyncHandler(async (req, res) => {
 const getSingleOpening = asyncHandler(async (req, res) => {
     const _id = req.params?._id
     // console.log("dsjchbdshvchsdv",_id);
+
+    
     let opening = await Opening
         .findById(_id)
-        // .populate("announcer", "name email userType")
+        .populate("announcer", "name email userType")
+        .exec()
 
-
-    opening = opening.toObject()
-
-    const userData = await User.findById(opening?.announcer);
-    opening.announcer = {
-        name: userData?.name,
-        image: userData?.image,
-        userType: userData?.userType,
-    }
     res.json({ success: 1, opening })
 })
 

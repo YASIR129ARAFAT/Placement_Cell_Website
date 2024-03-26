@@ -18,6 +18,7 @@ exports.getComments = asyncHandler(async (req, res) => {
     let comments = await Comment
                     .find({ announcementId: commentorId })
                     // .populate("commentorId", "name email")
+                    // .lean()
                     .exec()
     // console.log(typeof comments);
     // comments = comments.toObject()

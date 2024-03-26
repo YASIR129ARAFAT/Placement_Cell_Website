@@ -114,9 +114,19 @@ UserSchema.methods.generateRefreshToken = async function () {
     );
 }
 
+
 UserSchema.virtual('formattedDOB').get( function(){
     let dob =  this?.dob 
     // console.log("dob+",dob);
+
+    /**
+     * for populating if virtual attribute is not selected then it will give an error
+        because mongodb will try to add virtual object from some object which is not present in
+        the result
+     * to avoid this always add a conditional check in before creating a virtual object
+     */
+
+    if(!dob) return null;
 
     dob = dob.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})
     // console.log("dob+2",dob);

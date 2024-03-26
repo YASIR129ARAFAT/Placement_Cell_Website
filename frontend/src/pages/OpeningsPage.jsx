@@ -18,9 +18,8 @@ function OpeningsPage({ className = "" }) {
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
   const [openings, setOpenings] = useState([]);
 
-  const handleClickComment = (e) => {
-    e.preventDefault();
-    console.log("comment");
+  const handleClickComment = (_id) => {
+    navigate(`/singleOpening/${_id}`)
   };
   const handleClickDelete = async(e,_id) => {
     e.preventDefault();
@@ -81,7 +80,9 @@ function OpeningsPage({ className = "" }) {
                     {/* //comment */}
                     <button
                       className="mt-4 p-0 m-0"
-                      onClick={handleClickComment}
+                      onClick={()=>{
+                        handleClickComment(pp?._id)
+                      }}
                     >
                       <BiSolidCommentDetail color="grey" size={24} />
                     </button>

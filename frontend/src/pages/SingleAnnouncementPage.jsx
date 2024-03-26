@@ -44,7 +44,7 @@ function SingleAnnouncement() {
     }
     loadAllComments(id);
 
-    async function loggedInUser (){
+    async function loggedInUser(){
       try {
         const data = await getLoggedInUserDetails();
         setLoggedInUserDetails(data);

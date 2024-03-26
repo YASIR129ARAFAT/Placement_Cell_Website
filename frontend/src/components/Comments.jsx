@@ -13,7 +13,7 @@ function Comments({ commentsArray, className = "" }) {
         {commentsArray.map((obj) => {
           obj.isResultsAnnouncement = 1;
           return (
-            <div className="flex justify-center w-full mb-2">
+            <div key={obj?.commentorId} className="flex justify-center w-full mb-2">
               <MessageCard obj={obj} className="rounded-none"></MessageCard>
             </div>
           )

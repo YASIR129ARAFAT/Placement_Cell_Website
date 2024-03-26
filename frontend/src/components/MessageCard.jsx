@@ -14,7 +14,9 @@ function MessageCard({ className = "", children, obj }) {
         <div className="flex flex-row justify-between items-center w-full mx-auto">
           <div>
             <div className="ml-4">{obj?.name}</div>
-            <div className="ml-4 text-xs">{(obj?.isAdmin===true)?"Admin":"Student"}</div>
+            <div className="ml-4 text-xs">
+              {obj?.isAdmin === true ? "Admin" : "Student"}
+            </div>
           </div>
           <div className="flex flex-col items-center justify-center mr-4">
             <div className="text-xs flex items-center justify-center">
@@ -28,14 +30,18 @@ function MessageCard({ className = "", children, obj }) {
       </div>
       <hr className="mt-2" />
       {obj?.isResultsAnnouncement == 1 ? (
-        <div className="mx-auto justify-center overflow-scroll">{obj?.content}</div>
+        <div className="mx-auto justify-center overflow-scroll">
+          {obj?.content}
+        </div>
       ) : (
         <div className="mx-auto justify-center overflow-scroll">
           <div>
-            <b>Company: </b>{obj?.company}
+            <b>Company: </b>
+            {obj?.company}
           </div>
           <div>
-            <b>Duration: </b>{obj?.duration}
+            <b>Duration: </b>
+            {obj?.duration}
           </div>
           <div>
             <b>Eligibility: </b> {obj?.branches}{" "}
@@ -48,10 +54,7 @@ function MessageCard({ className = "", children, obj }) {
           </div>
           <div>
             <b>Form Link: </b>{" "}
-            <Link
-              className="text-blue-500"
-              to={obj?.formlink}
-            >
+            <Link className="text-blue-500" to={obj?.formlink}>
               Here
             </Link>{" "}
           </div>

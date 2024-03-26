@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import profilePicPlaceholder from "../assets/profile_pic_placeholder.jpeg";
+import { GrTableAdd } from "react-icons/gr";
 
 import {
   FaUser,
@@ -25,6 +26,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     "Other Users",
     "Admin Profile",
     "About",
+    "Placed Students",
   ];
   const correspondingPaths = [
     "/userprofile",
@@ -34,6 +36,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     "/alluser",
     "/alladmins",
     "/about",
+    "/allSelections",
   ];
   const sidebarCollapsedText = [
     <FaUser />,
@@ -43,6 +46,8 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     <FaUsers />,
     <FaUserShield />,
     <FaInfo />,
+    <GrTableAdd />,
+
   ];
   const [sidebarText, setSidebarText] = useState(sidebarCollapsedText);
   const [isCollapsed, setIsCollapsed] = useState(1);
@@ -68,8 +73,8 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     <>
       <nav className="border-b-2 h-20 border-blue-700 fixed top-0 left-0 right-0 bg-white dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
-            href="https://flowbite.com/"
+          <Link
+            to={`/allannouncements`}
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
@@ -80,7 +85,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               company
             </span>
-          </a>
+          </Link>
 
           <div className="flex flex-row items-center space-x-3">
             

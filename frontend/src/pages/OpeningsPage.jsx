@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BiSolidCommentDetail } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 import Button from "../components/Button";
 import Sidebar from "../components/Sidebar";
@@ -11,7 +12,7 @@ import SingleOpening from "../components/SingleOpening.jsx";
 
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 import { getAllOpenings } from "../services/getAllOpenings.services";
-import {deleteOpening} from "../services/deleteOpening.services.js"
+import { deleteOpening } from "../services/deleteOpening.services.js";
 
 function OpeningsPage({ className = "" }) {
   const navigate = useNavigate();
@@ -19,17 +20,17 @@ function OpeningsPage({ className = "" }) {
   const [openings, setOpenings] = useState([]);
 
   const handleClickComment = (_id) => {
-    navigate(`/singleOpening/${_id}`)
+    navigate(`/singleOpening/${_id}`);
   };
-  const handleClickDelete = async(e,_id) => {
+  const handleClickDelete = async (e, _id) => {
     e.preventDefault();
     // console.log("Delete");
     try {
-      const data = await deleteOpening(_id)
-      const newOpenings = openings.filter((ele)=>{
-        return ele?._id !== _id
-      })
-      setOpenings(newOpenings)
+      const data = await deleteOpening(_id);
+      const newOpenings = openings.filter((ele) => {
+        return ele?._id !== _id;
+      });
+      setOpenings(newOpenings);
     } catch (error) {
       console.log(error);
     }
@@ -42,6 +43,9 @@ function OpeningsPage({ className = "" }) {
     navigate("/addOpening");
   };
 
+  const handleClickAddSelections = (_id) => {
+    navigate(`/addSelections/${_id}`); // id of the opening
+  };
 
   useEffect(() => {
     async function loadLoggedInUserDetails() {
@@ -76,33 +80,45 @@ function OpeningsPage({ className = "" }) {
               pp.isResultsAnnouncement = 0;
               return (
                 <SingleOpening key={pp?._id} obj={pp} className="w-full">
-                  <div className="flex flex-row">
+                  <div className="flex flex-row justify-between">
                     {/* //comment */}
-                    <button
-                      className="mt-4 p-0 m-0"
-                      onClick={()=>{
-                        handleClickComment(pp?._id)
-                      }}
-                    >
-                      <BiSolidCommentDetail color="grey" size={24} />
-                    </button>
+                    <div className="flex flex-row">
+                      <button
+                        className="mt-4 p-0 m-0"
+                        onClick={() => {
+                          handleClickComment(pp?._id);
+                        }}
+                      >
+                        <BiSolidCommentDetail color="grey" size={24} />
+                      </button>
 
-                    {/* //delete */}
+                      {/* //delete */}
+                      <button
+                        className="mt-4 p-0 m-0 ml-2"
+                        onClick={(e) => {
+                          handleClickDelete(e, pp?._id);
+                        }}
+                      >
+                        <MdDelete color="red" size={24} />
+                      </button>
+
+                      {/* //edit */}
+                      <button
+                        className="mt-4 p-0 m-0 ml-2"
+                        onClick={handleClickEdit}
+                      >
+                        <RiEdit2Fill color="darkgreen" size={24} />
+                      </button>
+                    </div>
+                      
+                      {/* add selections */}
                     <button
                       className="mt-4 p-0 m-0 ml-2"
-                      onClick={(e)=>{
-                        handleClickDelete(e,pp?._id)
+                      onClick={(e) => {
+                        handleClickAddSelections(pp?._id); // id of the opening
                       }}
                     >
-                      <MdDelete color="red" size={24} />
-                    </button>
-
-                    {/* //edit */}
-                    <button
-                      className="mt-4 p-0 m-0 ml-2"
-                      onClick={handleClickEdit}
-                    >
-                      <RiEdit2Fill color="darkgreen" size={24} />
+                      <AiOutlineUsergroupAdd color="darkblue" size={24} />
                     </button>
                   </div>
                 </SingleOpening>

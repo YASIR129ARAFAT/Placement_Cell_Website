@@ -4,22 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { deleteHandler } from "../handlers/deleteComment.handler.js";
 
 function Comments({ commentsArray, setCommentsArray, className = "" }) {
-  // const [commentsArray2,setCommentsArray2] = useState(commentsArray)
-  // const handleClick = async(id)=>{
-  //   try{
-  //     const data = await deleteComment(id);
-
-  //     if(data?.success === 1){
-  //       const filteredCommentsArray = commentsArray.filter((ele)=>{
-  //         return ele?._id !== id;
-  //       })
-  //       setCommentsArray(filteredCommentsArray)
-  //     }
-  //   }
-  //   catch(error){
-  //     console.log(error);
-  //   }
-  // }
+  
   return (
     <div
       className={`w-[80%] flex flex-col justify-center rounded-lg border border-gray-200 bg-white  ${className}`}

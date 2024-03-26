@@ -17,6 +17,8 @@ import UpdateUserDataPage from "./pages/updateUserDataPage.jsx";
 import AddOpeningPage from "./pages/addOpeningPage.jsx";
 import ChangePasswordPage from "./pages/changePasswordPage.jsx";
 import SingleOpeningPage from "./pages/SingleOpeningPage.jsx";
+import AddSelectionsPage from "./pages/AddSelectionsPage.jsx";
+import AllSelectionsPage from "./pages/AllSelectionsPage.jsx";
 
 
 import { RouterProvider,Route,createRoutesFromElements, createBrowserRouter } from "react-router-dom";
@@ -40,6 +42,8 @@ const router = createBrowserRouter(
       <Route path="changePassword" element={<ChangePasswordPage/>} />
       <Route path="addOpening" element={<AddOpeningPage/>} />
       <Route path="singleOpening/:_id" element={<SingleOpeningPage/>} />
+      <Route path="addSelections/:_id" element={<AddSelectionsPage/>} />
+      <Route path="allSelections" element={<AllSelectionsPage/>} />
 
       <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} /> {/**profile of other user*/}
 

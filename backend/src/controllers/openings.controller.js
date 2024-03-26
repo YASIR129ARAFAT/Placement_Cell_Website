@@ -1,6 +1,6 @@
 const Opening = require("../models/openings.model.js");
 const { asyncHandler } = require("../utils/asyncHandler.js");
-const {User} = require('../models/user.models.js');
+const { User } = require('../models/user.models.js');
 const { Comment } = require("../models/comments.model.js");
 
 
@@ -8,7 +8,7 @@ const { Comment } = require("../models/comments.model.js");
 const addOpening = asyncHandler(async (req, res) => {
     const formData = req.body;
     const announcer = req?.user?._id;
-    console.log("form form: \n",formData);
+    console.log("form form: \n", formData);
     // console.log(announcer);
 
     let {
@@ -57,7 +57,7 @@ const addOpening = asyncHandler(async (req, res) => {
         error = { ...error, locationError: "Location can't be empty" }
         flag++;
     }
-    if(formLink===""){
+    if (formLink === "") {
         error = { ...error, formLinkError: "Form Link can't be empty" }
         flag++;
     }
@@ -85,7 +85,7 @@ const addOpening = asyncHandler(async (req, res) => {
     }
 
 
-    const formattedBranchesAllowed = (branchesAllowed.length !==0)?(branchesAllowed.split(",")):([]);
+    const formattedBranchesAllowed = (branchesAllowed.length !== 0) ? (branchesAllowed.split(",")) : ([]);
 
 
     formattedBranchesAllowed.map((ele, ind) => {
@@ -257,16 +257,16 @@ const getAllOpenings = asyncHandler(async (req, res) => {
         .sort({ updatedAt: -1 })
         .exec()
 
-        //why populate is not working
+    //why populate is not working
 
     let newAllOpenings = [];
     for (let obj of allOpenings) {
         obj = obj?.toObject()
         const announcer = await User
-                            .findById({_id:obj?.announcer})
-                            .select("-password -refreshToken ")
-                            .exec()
-        const newObj = {...obj,announcer:announcer}
+            .findById({ _id: obj?.announcer })
+            .select("-password -refreshToken ")
+            .exec()
+        const newObj = { ...obj, announcer: announcer }
 
         newAllOpenings.push(newObj);
     }
@@ -276,27 +276,35 @@ const getAllOpenings = asyncHandler(async (req, res) => {
 
 })
 
-const getSingleOpening = asyncHandler(async(req,res)=>{
+const getSingleOpening = asyncHandler(async (req, res) => {
     const _id = req.params?._id
-    let opening = Opening
-                    .findById(_id)
-                    .populate("Announcer","name email userType")
-    
+    // console.log("dsjchbdshvchsdv",_id);
+    let opening = await Opening
+        .findById(_id)
+        // .populate("announcer", "name email userType")
+
+
     opening = opening.toObject()
 
-    res.json({success:1,opening})
+    const userData = await User.findById(opening?.announcer);
+    opening.announcer = {
+        name: userData?.name,
+        image: userData?.image,
+        userType: userData?.userType,
+    }
+    res.json({ success: 1, opening })
 })
 
-const deleteOpening = asyncHandler(async(req,res)=>{
+const deleteOpening = asyncHandler(async (req, res) => {
     const _id = req.params?._id;
 
     //delete all the comments related to this opening 
-    const comment = await Comment.deleteMany({announcementId:_id})
+    const comment = await Comment.deleteMany({ announcementId: _id })
 
-    const opening = await Opening.findByIdAndDelete({_id});
+    const opening = await Opening.findByIdAndDelete({ _id });
 
-    res.json({success:1,message:"Deleted Successsfully!!"})
+    res.json({ success: 1, message: "Deleted Successsfully!!" })
 
 })
 
-module.exports = { addOpening, getAllOpenings,deleteOpening,getSingleOpening }
+module.exports = { addOpening, getAllOpenings, deleteOpening, getSingleOpening }

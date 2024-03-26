@@ -19,7 +19,7 @@ exports.getComments = asyncHandler(async (req, res) => {
                     .find({ announcementId: commentorId })
                     // .populate("commentorId", "name email")
                     .exec()
-    console.log(typeof comments);
+    // console.log(typeof comments);
     // comments = comments.toObject()
     let newCommentsArr=[]
     for(let obj of comments){
@@ -32,7 +32,7 @@ exports.getComments = asyncHandler(async (req, res) => {
 
         newCommentsArr.push(newObj)
     }
-    console.log(newCommentsArr);
+    // console.log(newCommentsArr);
     
     res.json(newCommentsArr); // converted to json and sent
 

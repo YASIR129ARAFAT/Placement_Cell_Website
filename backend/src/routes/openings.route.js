@@ -19,10 +19,10 @@ const { authMiddleware } = require('../middlewares/auth.middleware.js');
  */
 
 router
-    .post('/addOpening', authMiddleware, isAdminMiddleware, addOpening)
+    .post('/addOpening', authMiddleware, addOpening)
     .get('/getAllOpenings', authMiddleware, getAllOpenings)
     .delete('/deleteOpening/:_id', authMiddleware, deleteOpening)
-    .get('/getSingleOpening/:_id',getSingleOpening)
+    .get('/getSingleOpening/:_id',authMiddleware,getSingleOpening)
 
 
 exports.OpeningsRouter = router

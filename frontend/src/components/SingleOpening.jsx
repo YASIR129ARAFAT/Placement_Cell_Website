@@ -65,17 +65,17 @@ function SingleOpening({ className = "", children, obj }) {
           </div>
         )}
 
-        {obj?.cgpaCriteria.length !== 0 ? (
+        {obj?.cgpaCriteria?.length !== 0 ? (
           <div className="mt-2 mb-2">
             <b className="text-blue-700">CGPA Criteria</b>
-            {obj?.cgpaCriteria.map((ele) => {
+            {obj?.cgpaCriteria?.map((ele) => {
               return (
                 <div key={obj?._id} className="ml-4">
                   <span>
-                    <b>Branch:</b> {ele.branch}
+                    <b>Branch:</b> {ele?.branch}
                   </span>
                   <span className="ml-4">
-                    <b>Cgpa:</b> {ele.cgpa}
+                    <b>Cgpa:</b> {ele?.cgpa}
                   </span>
                 </div>
               );
@@ -89,7 +89,7 @@ function SingleOpening({ className = "", children, obj }) {
         </div>
         <div>
           <b>Branches Allowed: </b>
-          {obj?.branchesAllowed.join(", ")}
+          {obj?.branchesAllowed?.join(", ")}
         </div>
         <div>
           <b>Application Deadline: </b> {obj?.formattedApplicationDeadlineDate}

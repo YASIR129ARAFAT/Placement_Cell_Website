@@ -11,7 +11,7 @@ const getAllComments = async (id) => {
           },
         }
       );
-      console.log("from getAllComm",res?.data); // to indicate that it is a comment box
+      // console.log("from getAllComm",res?.data); // to indicate that it is a comment box
 
       return res?.data;
     } catch (error) {

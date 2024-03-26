@@ -73,7 +73,7 @@ function SingleAnnouncement() {
 
       <Comments
         commentsArray={allComments}
-        setAllComments={setAllComments}
+        setCommentsArray={setAllComments}
         className="mt-10 lg:w-[68%] sm:w-full md:w-full"
       ></Comments>
     </Sidebar>

@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import MessageCard from "./MessageCard";
 import { MdDelete } from "react-icons/md";
-import { deleteComment } from "../services/deleteComment.services.js";
-function Comments({ commentsArray, setAllComments, className = "" }) {
+import { deleteHandler } from "../handlers/deleteComment.handler.js";
+
+function Comments({ commentsArray, setCommentsArray, className = "" }) {
   // const [commentsArray2,setCommentsArray2] = useState(commentsArray)
-  const handleClick = async(id)=>{
-    try{
-      const data = await deleteComment(id);
-      // console.log("sjhdbhjsd",data?.success);
-      if(data?.success === 1){
-        // console.log("innn");
-        const filteredCommentsArray = commentsArray.filter((ele)=>{
-          return ele?._id !== id;
-        })
-        setAllComments(filteredCommentsArray)
-      }
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
+  // const handleClick = async(id)=>{
+  //   try{
+  //     const data = await deleteComment(id);
+
+  //     if(data?.success === 1){
+  //       const filteredCommentsArray = commentsArray.filter((ele)=>{
+  //         return ele?._id !== id;
+  //       })
+  //       setCommentsArray(filteredCommentsArray)
+  //     }
+  //   }
+  //   catch(error){
+  //     console.log(error);
+  //   }
+  // }
   return (
     <div
       className={`w-[80%] flex flex-col justify-center rounded-lg border border-gray-200 bg-white  ${className}`}
@@ -39,7 +39,7 @@ function Comments({ commentsArray, setAllComments, className = "" }) {
                 <button
                   className="m-0 pt-2"
                   onClick={() => {
-                    handleClick(obj?._id);
+                    deleteHandler(obj?._id,commentsArray,setCommentsArray);
                   }}
                 >
                   <MdDelete color="grey" size={20} />

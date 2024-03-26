@@ -50,12 +50,12 @@ exports.addComment = asyncHandler(async (req, res) => {
 
     await comment.save();
 
-    let data = await comment.populate("commentorId","name email");
+    let data = await comment.populate("commentorId","name email isAdmin image userType");
     data = data.toObject();
 
     const {commentorId:writer, ...rest} = data;
     data = {writer, ...rest}
-    // console.log("sjhsddj",data);
+    console.log("sjhsddj",data);
 
     res.status(201).json({
         success: 1,

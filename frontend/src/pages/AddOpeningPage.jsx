@@ -42,7 +42,7 @@ const AddOpeningPage = () => {
 
   const handleOfferTypeChange = (e) => {
     setOfferType(e.target.value);
-    console.log(offerType);
+    // console.log(offerType);
   };
   const handleCompanyNameChange = (e) => {
     setCompanyName(e.target.value);
@@ -136,7 +136,7 @@ const AddOpeningPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("inside handler");
+    // console.log("inside handler");
 
     try {
       const data = await addOpening({
@@ -154,7 +154,7 @@ const AddOpeningPage = () => {
         additionalInfo,
       });
 
-      console.log("data from handler", data);
+      // console.log("data from handler", data);
 
       if (data?.success === 0) {
         setErrorMessage((prev) => {

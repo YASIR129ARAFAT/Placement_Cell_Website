@@ -22,7 +22,7 @@ function otherUserProfilePage() {
         setLoggedInUserDetails(data);
 
         // id of the user whose profile you want to view
-        console.log(id);
+        // console.log(id);
         data = await getUserData(id);
 
         setUserData(data);

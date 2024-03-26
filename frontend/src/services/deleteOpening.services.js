@@ -9,7 +9,7 @@ const deleteOpening = async (_id) => {
                 }
             })
         const data = response?.data
-        console.log("deleted data: ",data);
+        // console.log("deleted data: ",data);
 
         return data;
     }

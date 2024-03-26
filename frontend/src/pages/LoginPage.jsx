@@ -27,8 +27,8 @@ function Login() {
       // console.log(formVal);
       // console.log('submit');
       const res = await axios.post("http://localhost:3000/auth/login", formVal);
-      console.log("res.data");
-      console.log(res.data);
+      // console.log("res.data");
+      // console.log(res.data);
       setFormVal({ email: "", password: "" });
       setError({ ...error, ...res.data.error });
       // window.location.href = `http://localhost:5173/allannouncements`

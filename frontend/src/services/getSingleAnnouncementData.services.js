@@ -15,7 +15,7 @@ const getSingleAnnouncementData = async (id) => {
             },
         });
 
-        console.log(response);
+        // console.log(response);
 
         return response?.data;
     } catch (error) {

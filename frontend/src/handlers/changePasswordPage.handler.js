@@ -6,7 +6,7 @@ async function handleSubmit(e, formVal, setError, setMessage, navigate) {
     try {
         const data = await changePassword(formVal)
 
-        console.log("message:::\n",data);
+        // console.log("message:::\n",data);
         setError((prev)=>{
             return {...prev,...data?.errors}
         })

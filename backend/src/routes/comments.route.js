@@ -4,7 +4,8 @@ const router = express.Router()
 
 const {
     getComments,
-    addComment
+    addComment,
+    deleteComment
 } = require('../controllers/comments.controller.js')
 
 /**
@@ -12,5 +13,6 @@ const {
  */
 router.get('/:commentorId', getComments)
     .post('/addComment', addComment)
+    .delete('/deleteComment/:_id',deleteComment)
 
 exports.CommentsRouter = router

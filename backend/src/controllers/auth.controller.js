@@ -86,8 +86,8 @@ exports.createUser = asyncHandler(async (req, res) => {
     //not safe to send password and token to user as response so remove them from object
     let { password: omit_pass, confirmPassword: omit_conf_pass, token, ...restObj } = formData
     // since password is already used as a name for var we used `password:omit_pass`
-    console.log("User Registered Successfully")
-    console.log(restObj)
+    // console.log("User Registered Successfully")
+    // console.log(restObj)
     res.json({ user: restObj, success: 1, successMessage: "User Registered Successfully" });
 
 })

@@ -64,7 +64,7 @@ function AllAnnouncement({ className = "" }) {
                   </button>
 
                   {/* delete and update button should be visible to the one who made the announcement */}
-                  {loggedInUser?._id === obj?.announcer && (
+                  {loggedInUser?._id === obj?.writer?._id && (
                     <>
                       <button
                         className="mt-4 ml-2"

@@ -6,8 +6,8 @@ async function handleSubmit(e, id, formVal, error, setError, navigate) {
     try {
         const response = await updateUserDetails(id, formVal);
         setError({ ...error, ...response?.error })
-        console.log(typeof response?.success);
-        console.log( response?.success);
+        // console.log(typeof response?.success);
+        // console.log( response?.success);
         if(response?.success ===1)
         {
             navigate(`/userprofile`)

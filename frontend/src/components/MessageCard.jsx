@@ -13,9 +13,9 @@ function MessageCard({ className = "", children, obj }) {
         <img src={userPic} alt="pic" className="w-8 h-8 rounded-full" />
         <div className="flex flex-row justify-between items-center w-full mx-auto">
           <div>
-            <div className="ml-4">{obj?.name}</div>
+            <div className="ml-4">{obj?.writer?.name}</div>
             <div className="ml-4 text-xs">
-              {obj?.isAdmin === true ? "Admin" : "Student"}
+              {obj?.writer?.isAdmin === true ? "Admin" : "Student"}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center mr-4">
@@ -64,7 +64,7 @@ function MessageCard({ className = "", children, obj }) {
         </div>
       )}
 
-      <hr className="mt-2" />
+      <hr className="" />
 
       {children}
     </div>

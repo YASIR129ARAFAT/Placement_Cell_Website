@@ -10,7 +10,7 @@ exports.getAllUser = asyncHandler(async (req, res) => {
 
     let getAdminsOnly = req.params?.getAdminsOnly
     getAdminsOnly = (getAdminsOnly === "false") ? (false) : (true);
-    console.log(getAdminsOnly);
+    // console.log(getAdminsOnly);
 
     if (getAdminsOnly === true) {
         // console.log("hiii from boolean");
@@ -70,7 +70,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
     });
 
     if (updatedValues?.mobile?.length != 10) {
-        console.log(updatedValues?.mobile?.length);
+        // console.log(updatedValues?.mobile?.length);
         error = { ...error, mobileError: "Invalid mobile number" }
         flag++;
     }

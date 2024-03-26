@@ -13,7 +13,7 @@ const getAllResults = async () => {
       );
 
       if (response?.status === 200) {
-        console.log(response);
+        // console.log(response);
         // setAllAnnouncements(response.data);
         return response?.data;
       } else {

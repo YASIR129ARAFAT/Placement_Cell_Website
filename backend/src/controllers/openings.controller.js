@@ -8,7 +8,7 @@ const { Comment } = require("../models/comments.model.js");
 const addOpening = asyncHandler(async (req, res) => {
     const formData = req.body;
     const announcer = req?.user?._id;
-    console.log("form form: \n", formData);
+    // console.log("form form: \n", formData);
     // console.log(announcer);
 
     let {
@@ -283,7 +283,7 @@ const getSingleOpening = asyncHandler(async (req, res) => {
     
     let opening = await Opening
         .findById(_id)
-        .populate("announcer", "name email userType")
+        .populate("announcer", "name email userType isAdmin image")
         .exec()
 
     res.json({ success: 1, opening })

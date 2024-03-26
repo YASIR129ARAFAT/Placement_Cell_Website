@@ -5,7 +5,7 @@ const { Schema } = mongoose
 
 const AnnouncementSchema = new Schema(
     {
-        announcer: { type: mongoose.Schema.ObjectId, required: true },
+        announcer: { type: mongoose.Schema.ObjectId, required: true, ref:"User" },
         content: { type: String, required: true },
         isResults: { type: Boolean, default: 0 },
     },

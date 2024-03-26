@@ -23,7 +23,7 @@ function OpeningsPage({ className = "" }) {
   };
   const handleClickDelete = async(e,_id) => {
     e.preventDefault();
-    console.log("Delete");
+    // console.log("Delete");
     try {
       const data = await deleteOpening(_id)
       const newOpenings = openings.filter((ele)=>{
@@ -36,7 +36,7 @@ function OpeningsPage({ className = "" }) {
   };
   const handleClickEdit = (e) => {
     e.preventDefault();
-    console.log("Edit");
+    // console.log("Edit");
   };
   const handleClick2 = (e) => {
     navigate("/addOpening");
@@ -57,7 +57,7 @@ function OpeningsPage({ className = "" }) {
     async function loadOpenings() {
       try {
         const data = await getAllOpenings();
-        console.log(data);
+        // console.log(data);
         setOpenings(data);
       } catch (error) {
         console.log(error);

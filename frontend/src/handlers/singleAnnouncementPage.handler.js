@@ -12,7 +12,7 @@ const handleClick = async (e, commentMessage,setCommentMessage, setAllComments, 
             });
         }
     } catch (error) {
-        console.log("error is adding comment", error);
+        console.log("error in adding comment", error);
     }
 };
 

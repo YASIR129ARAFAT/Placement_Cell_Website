@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import MessageCard from "../components/MessageCard";
-import Button from "../components/Button";
 import Sidebar from "../components/Sidebar";
 import WriteComment from "../components/WriteComment";
 
@@ -64,7 +63,7 @@ function AllAnnouncement({ className = "" }) {
                   </button>
 
                   {/* delete and update button should be visible to the one who made the announcement */}
-                  {loggedInUser?._id === obj?.announcer && (
+                  {loggedInUser?._id === obj?.writer?._id && (
                     <>
                       <button
                         className="mt-4 ml-2"

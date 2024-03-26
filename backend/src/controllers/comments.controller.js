@@ -6,7 +6,7 @@ const { User } = require("../models/user.models.js");
 
 
 exports.getComments = asyncHandler(async (req, res) => {
-    const commentorId = req.params?.commentorId //id of the of which it is a comment
+    const commentorsId = req.params?.commentorId //id of the of which it is a comment
 
     /*
 
@@ -16,26 +16,24 @@ exports.getComments = asyncHandler(async (req, res) => {
 
      */
     let comments = await Comment
-                    .find({ announcementId: commentorId })
-                    // .populate("commentorId", "name email")
-                    // .lean()
-                    .exec()
-    // console.log(typeof comments);
-    // comments = comments.toObject()
+        .find({ announcementId: commentorsId })
+        .populate("commentorId",
+            "name email userType isAdmin image",
+        )
+        .exec()
+
     let newCommentsArr=[]
     for(let obj of comments){
         obj = obj.toObject()
-        const userData = await User
-                        .findById(obj?.commentorId)
-                        .select("-refreshToken -password")
-
-        const newObj = {...obj,name:userData?.name,image:userData?.image,isAdmin:userData?.isAdmin}
-
+        let newObj = obj;
+        const {commentorId:writer,...rest} = newObj;
+        newObj = {...rest,writer};
         newCommentsArr.push(newObj)
     }
     // console.log(newCommentsArr);
-    
+
     res.json(newCommentsArr); // converted to json and sent
+    // res.json(comments); // converted to json and sent
 
 })
 exports.addComment = asyncHandler(async (req, res) => {
@@ -51,10 +49,26 @@ exports.addComment = asyncHandler(async (req, res) => {
     })
 
     await comment.save();
-    const data = comment.toObject();
+
+    let data = await comment.populate("commentorId","name email");
+    data = data.toObject();
+
+    const {commentorId:writer, ...rest} = data;
+    data = {writer, ...rest}
+    // console.log("sjhsddj",data);
+
     res.status(201).json({
         success: 1,
         message: "comment added sucessfully",
         data,
     })
+})
+
+exports.deleteComment = asyncHandler(async (req,res)=>{
+    const {_id} = req.params;
+    // console.log(_id);
+    
+    const comment = await Comment.findByIdAndDelete(_id);
+
+    res.json({success:1, message:"deleted sucessfully!!!"})
 })

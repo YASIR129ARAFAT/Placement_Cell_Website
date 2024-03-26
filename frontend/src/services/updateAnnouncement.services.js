@@ -8,8 +8,8 @@ async function updateAnnouncement(formContent,id){
                 token:localStorage.getItem("token")
             }
         });
-        console.log(response);
-        return response.data;
+        // console.log(response);
+        return response?.data;
     } catch (error) {
         console.log("error in updating announcement",error);
     }

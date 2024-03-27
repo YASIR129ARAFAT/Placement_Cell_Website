@@ -25,14 +25,33 @@ function AllAnnouncement({ className = "" }) {
 
   useEffect(() => {
     async function setData() {
-      const data = await getLoggedInUserDetails();
-      setLoggedInUserDetails(data);
+      try {
+        const data = await getLoggedInUserDetails();
+        // console.log(data);
+        if (data?.success === 0) {
+          navigate(`/errorPage/${data?.message}`);
+        } else {
+          setLoggedInUserDetails(data);
+        }
+      } catch (error) {
+        console.log(error);
+        navigate(`/errorPage/internal server error`);
+      }
     }
     setData();
 
     async function loadAllAnnouncements() {
-      const data = await getAllAnnouncements();
-      setAllAnnouncements(data);
+      try {
+        const data = await getAllAnnouncements();
+        if (data?.success === 0) {
+          navigate(`/errorPage/${data?.message}`);
+        } else {
+          setAllAnnouncements(data);
+        }
+      } catch (error) {
+        console.log(error);
+        navigate(`/errorPage/internal server error`);
+      }
     }
     loadAllAnnouncements();
   }, []); // use effect must not be given an async function or promise returning function directly

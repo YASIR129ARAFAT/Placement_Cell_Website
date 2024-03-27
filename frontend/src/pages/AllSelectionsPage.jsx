@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 import { IoMdDoneAll } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -14,14 +15,21 @@ function AllSelectionsPage() {
   const [allSelections, setAllSelections] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  
+  const navigate = useNavigate()
+
   useEffect(() => {
     async function loadLoggedInUserDetails() {
       try {
         const data = await getLoggedInUserDetails();
-        setLoggedInUserDetails(data);
+        if(data?.success === 0){
+          navigate(`/errorPage/${data?.message}`)
+        }else{
+          setLoggedInUserDetails(data);
+
+        }
       } catch (error) {
         console.log(error);
+        navigate(`/errorPage/internal server error`)
       }
     }
     loadLoggedInUserDetails();
@@ -29,10 +37,16 @@ function AllSelectionsPage() {
     async function loadAllSelections() {
       try {
         const data = await getAllSelections();
-        console.log("lll", data);
-        setAllSelections(data?.newSelection);
+        // console.log("lll", data);
+        if(data?.success === 0){
+          navigate(`/errorPage/${data?.message}`)
+        }
+        else{
+          setAllSelections(data?.newSelection);
+        }
       } catch (error) {
         console.log(error);
+        navigate(`/errorPage/internal server error`)
       }
     }
     loadAllSelections();

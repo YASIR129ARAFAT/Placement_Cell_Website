@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 import { IoMdDoneAll } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -43,7 +43,7 @@ const AddOpeningPage = () => {
   };
   const [errorMessage, setErrorMessage] = useState(intialErrorMessage);
   const [successMessage, setSuccessMessage] = useState("");
-
+  const navigate = useNavigate()
 
   const handleOfferTypeChange = (e) => {
     setOfferType(e.target.value);
@@ -193,9 +193,15 @@ const AddOpeningPage = () => {
     async function loadLoggedInUserDetails() {
       try {
         const data = await getLoggedInUserDetails();
-        setLoggedInUserDetails(data);
+        console.log("front end: ",data);
+        if(data?.success === 0){
+          navigate(`/errorPage/${data?.message}`)
+        }else{
+          setLoggedInUserDetails(data);
+        }
       } catch (error) {
         console.log(error);
+        navigate(`/errorPage/internal server error`)
       }
     }
     loadLoggedInUserDetails();

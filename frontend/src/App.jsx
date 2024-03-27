@@ -19,7 +19,8 @@ import ChangePasswordPage from "./pages/changePasswordPage.jsx";
 import SingleOpeningPage from "./pages/SingleOpeningPage.jsx";
 import AddSelectionsPage from "./pages/AddSelectionsPage.jsx";
 import AllSelectionsPage from "./pages/AllSelectionsPage.jsx";
-
+import ErrorPage from "./pages/ErrorPage.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
 
 import { RouterProvider,Route,createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 
@@ -44,10 +45,10 @@ const router = createBrowserRouter(
       <Route path="singleOpening/:_id" element={<SingleOpeningPage/>} />
       <Route path="addSelections/:_id" element={<AddSelectionsPage/>} />
       <Route path="allSelections" element={<AllSelectionsPage/>} />
-
       <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} /> {/**profile of other user*/}
 
-      <Route path="error" element={<>Internal server error</>}/>
+      <Route path="errorPage/:message" element={<ErrorPage/>}/>
+      <Route path="*" element={<PageNotFound/>}/>
     </Route>
   )
 );

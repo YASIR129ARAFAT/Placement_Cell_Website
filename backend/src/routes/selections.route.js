@@ -12,7 +12,7 @@ const router = express.Router()
  * /api/selection
  */
 router
-    .get('/getAllSelections', getAllSelections)
+    .get('/getAllSelections',authMiddleware, getAllSelections)
     .delete('/deleteSelection/:_id', authMiddleware, deleteSelection)
     .post('/addSelections/:_id',authMiddleware, addSelections)
 

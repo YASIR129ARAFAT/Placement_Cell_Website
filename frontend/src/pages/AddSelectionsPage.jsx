@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { IoMdDoneAll } from "react-icons/io";
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import { addSelections } from "../services/addSelections.services.js";
@@ -15,14 +15,20 @@ function AddSelectionsPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
   const { _id } = useParams();
-
+  const navigate = useNavigate()
   useEffect(() => {
     async function loadLoggedInUserDetails() {
       try {
         const data = await getLoggedInUserDetails();
-        setLoggedInUserDetails(data);
+        if(data?.success === 0){
+          navigate(`/errorPage/${data?.message}`)
+        }
+        else{
+          setLoggedInUserDetails(data);
+        }
       } catch (error) {
         console.log(error);
+        navigate(`/errorPage/internal error occured`)
       }
     }
     loadLoggedInUserDetails();

@@ -1,32 +1,45 @@
 import React, { useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import Sidebar from "../components/Sidebar.jsx";
-import axios from "axios";
+
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import { getAllUsers } from "../services/getAllUsers.services.js";
 
+import { useNavigate } from "react-router-dom";
 function AllUsersPage({ className = "" }) {
   const [allUsersData, setAllUsersData] = useState([]);
   const [loggedInUserDetails, setLoggedInUserDetails] = useState([]);
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function setData() {
       try {
         const data = await getLoggedInUserDetails();
-        setLoggedInUserDetails(data);
+
+        if (data?.success === 0) {
+          navigate(`/errorPage/${data?.message}`);
+        } else {
+          setLoggedInUserDetails(data);
+        }
       } catch (error) {
         console.log(error);
+        navigate('/errorPage/internal server error')
       }
     }
     setData();
-    
-    async function loadAllUsers(getAdminsOnly){
+
+    async function loadAllUsers(getAdminsOnly) {
       try {
-        const data = await getAllUsers(getAdminsOnly)
-        setAllUsersData(data)
-        // console.log("sdhjetfcvesyj");
+        const data = await getAllUsers(getAdminsOnly);
+
+        if (data?.success === 0) {
+          navigate(`/errorPage/${data?.message}`);
+        } else {
+          setAllUsersData(data);
+        }
       } catch (error) {
         console.log(error);
+        navigate(`/errorPage/internal server error`);
       }
     }
     loadAllUsers(false); // i want all users including the admins

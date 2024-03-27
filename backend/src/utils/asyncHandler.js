@@ -4,11 +4,8 @@ exports.asyncHandler = (func)=>{
             await func(req,res,next);
         }
         catch(error){
-            console.log(error);
-            res.json({
-                success:0,
-                message: error.message
-            })
+            console.log("hhhhh",error);
+            res.status(400).json({success:0,message:error?.message || "Internal server error"})
         }
     }
 }

@@ -47,7 +47,7 @@ function AllAnnouncement({ className = "" }) {
           navigate(`/errorPage/${data?.message}`);
         } else {
           setAllAnnouncements(data);
-          console.log(data);
+          // console.log(data);
         }
       } catch (error) {
         console.log(error);

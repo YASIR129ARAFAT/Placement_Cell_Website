@@ -21,6 +21,7 @@ import AddSelectionsPage from "./pages/AddSelectionsPage.jsx";
 import AllSelectionsPage from "./pages/AllSelectionsPage.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 import { RouterProvider,Route,createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
       <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} /> {/**profile of other user*/}
 
       <Route path="errorPage/:message" element={<ErrorPage/>}/>
+      <Route path="forgotPassword" element={<ForgotPassword/>}/>
       <Route path="*" element={<PageNotFound/>}/>
     </Route>
   )

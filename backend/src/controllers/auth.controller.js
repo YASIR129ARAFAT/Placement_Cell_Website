@@ -1,10 +1,12 @@
 
 
+const jwt = require("jsonwebtoken")
 const { User } = require('../models/user.models');
 const getHtml = require('../utils/Mails/RegistrationEmails/htmlEmailBody.js');
 const sendRegistrationEmail = require('../utils/Mails/RegistrationEmails/registrationEmail.js');
 const { asyncHandler } = require('../utils/asyncHandler.js');
-
+const sendForgotPasswordEmail = require("../utils/Mails/ForgotPasswordEmails/forgotPasswordEmail.js");
+const getForgotPasswordHtml = require("../utils/Mails/ForgotPasswordEmails/htmlForgotPassword.js");
 
 
 exports.createUser = asyncHandler(async (req, res) => {
@@ -186,6 +188,41 @@ exports.login = asyncHandler(async (req, res) => {
         // res.send("<>hdbcd</>")
     }
 
+})
+
+
+// reset password for the case of forgot password
+exports.resetForgotPassword = asyncHandler(async(req,res)=>{
+    let {email} = req.body;
+    email = email.trim().trimStart();
+
+    let user = await User.find({email})
+    user = user[0];
+    if(user){
+        // console.log(user);
+        const {_id,email,password} = user;
+        const secret = "cmc$$ST9$%sd"+password;
+        const payload = {
+            email,
+            password,
+            id:_id
+        }
+        const token =  jwt.sign(payload,secret,{expiresIn:'4h'}); // token expires in 4hrs
+        const resetLink = `http://localhost:${process.env.FRONTEND_PORT}/reset/:${_id}/:${token}`
+
+        //send email
+        const to = email
+        const subject = "Account Password Reset"
+        const text = ''
+        const html = getForgotPasswordHtml(resetLink);
+
+        await sendForgotPasswordEmail(to,subject,text,html);
+
+        res.json({success:1,message:"Mail sent Sucessfully!!"});
+    }
+    else{
+        res.json({success:0,message:"Email does not exist!!!!"})
+    }
 })
 
 

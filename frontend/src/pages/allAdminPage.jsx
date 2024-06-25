@@ -14,6 +14,8 @@ function AllUsersPage({ className = "" }) {
     async function loadAllAdmins (){
       try {
         const data = await getAllAdmins()
+        console.log("all admins ");
+        // console.log(data);
         if(data?.success === 0){
           navigate(`/errorPage/${data?.message}`)
         }else{

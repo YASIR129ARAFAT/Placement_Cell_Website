@@ -34,6 +34,7 @@ function UpdateUserDataPage() {
     async function loadLoggedInUserDetails() {
       const data = await getLoggedInUserDetails();
       setLoggedInUserDetails(data);
+      // console.log(data);
     }
     loadLoggedInUserDetails();
 

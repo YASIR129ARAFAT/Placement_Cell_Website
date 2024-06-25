@@ -1,6 +1,8 @@
 
 
 const { User } = require('../models/user.models');
+const getHtml = require('../utils/Mails/RegistrationEmails/htmlEmailBody.js');
+const sendRegistrationEmail = require('../utils/Mails/RegistrationEmails/registrationEmail.js');
 const { asyncHandler } = require('../utils/asyncHandler.js');
 
 
@@ -12,7 +14,7 @@ exports.createUser = asyncHandler(async (req, res) => {
     let formData = req.body
     // console.log("req.body");
     // console.log(req.body);
-
+    formData.password = formData.dob; // initially password is set as dob YYYY-MM-DD
 
     // trim all values of the formData
     for (const [key, value] of Object.entries(formData)) {
@@ -30,21 +32,14 @@ exports.createUser = asyncHandler(async (req, res) => {
         }
     });
 
-    // console.log("trimmed val: ");
-    // console.log(typeof formData);
-    // console.log(formData);
-
     const { password, name, email, enrolmentNo, mobile, gender,
-        batch, branch, dob, confirmPassword } = formData
+        batch, branch, dob } = formData
 
     if (password.length < 4) {
         error = { ...error, confirmPasswordError: "Passwords must be of 4 or more characters" }
         flag++;
     }
-    if (password !== confirmPassword) {
-        error = { ...error, confirmPasswordError: "Passwords do not match" }
-        flag++;
-    }
+    
     if (mobile.length != 10) {
         error = { ...error, mobileError: "Invalid mobile number" }
         flag++;
@@ -83,8 +78,17 @@ exports.createUser = asyncHandler(async (req, res) => {
     });
     await user.save();
 
+    // console.log("dob: ",dob);
+
+    //send email for successfull registration
+    const to = email
+    const subject = `Registration for Placements Sucessful`
+    const text = ``
+    const html = getHtml(name,password,email)
+    await sendRegistrationEmail(to,subject,text,html);
+
     //not safe to send password and token to user as response so remove them from object
-    let { password: omit_pass, confirmPassword: omit_conf_pass, token, ...restObj } = formData
+    let { password: omit_pass, token, ...restObj } = formData
     // since password is already used as a name for var we used `password:omit_pass`
     // console.log("User Registered Successfully")
     // console.log(restObj)

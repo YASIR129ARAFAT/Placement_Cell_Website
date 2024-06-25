@@ -1,16 +1,18 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoMdDoneAll } from "react-icons/io";
-
+import { RxCross2 } from "react-icons/rx";
+import { IoReturnDownBack } from "react-icons/io5";
 import {
   initialRegistrationErrorMessage,
   initialRegistrationFormData,
 } from "../assets/initialStates.jsx";
-
+import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import Input from "../components/Input.jsx";
 import Label from "../components/Label.jsx";
 import Button from "../components/Button.jsx";
+
 
 function Registration() {
   const [errorMessage, setErrorMessage] = useState(
@@ -18,12 +20,21 @@ function Registration() {
   );
   const [formData, setFormData] = useState(initialRegistrationFormData);
   const [successMessage, setSuccessMessage] = useState("");
+  const [generalErrorMessage, setGeneralErrorMessage] = useState("");
+  const [loggedInUserDetails,setLoggedInUserDetails] = useState({})
+  const navigate = useNavigate()
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       const res = await axios.post(
         "http://localhost:3000/auth/signup",
-        formData
+        formData,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
       );
       console.log(res?.data);
       // console.log(errorMessage);
@@ -38,17 +49,17 @@ function Registration() {
           setSuccessMessage("");
         }, 5000);
       }
-
-
+      
 
       // console.log(res);
     } catch (error) {
-      console.log("error from log:",error);
-      
+      console.log("error from log:", error);
+      setGeneralErrorMessage(error?.response?.data?.message || "Internal Server Error!!")
+      setTimeout(()=>{
+        setGeneralErrorMessage("")
+      },6000)
     }
   }
-
-  
 
   const handleChange = (e) => {
     // console.log("formData");
@@ -59,6 +70,28 @@ function Registration() {
     const new_key = e.target.name + "Error";
     setErrorMessage({ ...errorMessage, [new_key]: "" });
   };
+
+  useEffect(()=>{
+    async function loadLoggedInUserDetails(){
+      try {
+        const data = await getLoggedInUserDetails();
+        if(data?.success === 0){
+          navigate(`/errorPage/${data?.message}`)
+        }
+        else{
+          setLoggedInUserDetails(data)
+          console.log(data);
+          if(data?.userType === "student"){
+            navigate(`/errorPage/Unauthorised Access!!`)
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        navigate(`/errorPage/internal error occured`)
+      }
+    }
+    loadLoggedInUserDetails()
+  },[])
   return (
     <section className="w-full pt-0 bg-white-50 dark:bg-gray-900">
       {successMessage !== "" && (
@@ -67,8 +100,18 @@ function Registration() {
           {successMessage}
         </p>
       )}
+      {generalErrorMessage !== "" && (
+        <p className=" sticky top-0 bg-red-200 w-full p-2 flex flex-row text-black dark:text-black">
+          <RxCross2 size={20} color="red" />
+          {generalErrorMessage}
+        </p>
+      )}
+      <div className="mb-10 ml-4">
+          <Link className="rounded-2xl m-2 p-2 " to={`/userprofile`}>
+            <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
+          </Link>
+        </div>
       <div className="w-full mt-10 flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-max lg:py-0">
-      
         <Link
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
@@ -80,7 +123,7 @@ function Registration() {
           />
           Flowbite
         </Link>
-        
+
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -382,7 +425,8 @@ function Registration() {
               >
                 Create an account
               </Button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              
+              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
                 <Link
                   to="/"
@@ -390,7 +434,7 @@ function Registration() {
                 >
                   Login here
                 </Link>
-              </p>
+              </p> */}
             </form>
           </div>
         </div>

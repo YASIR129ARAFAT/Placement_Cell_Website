@@ -4,13 +4,15 @@ const {
     createUser,
     login,
 } = require('../controllers/auth.controller.js');
+const { authMiddleware } = require('../middlewares/auth.middleware.js');
+const { isAdminMiddleware } = require('../middlewares/isAdmin.middleware.js');
 
 
 
 const router = express.Router();
 
 router
-    .post('/signup', createUser) // /auth/signup
+    .post('/signup',authMiddleware,isAdminMiddleware, createUser) // /auth/signup
     .post('/login', login)
 
     

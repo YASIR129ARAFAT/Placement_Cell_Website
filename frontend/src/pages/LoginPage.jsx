@@ -144,7 +144,7 @@ function Login() {
               >
                 Sign in
               </Button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
                   to="/register"
@@ -152,7 +152,7 @@ function Login() {
                 >
                   Sign up
                 </Link>
-              </p>
+              </p> */}
             </form>
             {error.otherError !== "" && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">

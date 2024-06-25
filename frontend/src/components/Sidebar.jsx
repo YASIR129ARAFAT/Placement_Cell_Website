@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import profilePicPlaceholder from "../assets/profile_pic_placeholder.jpeg";
 import { GrTableAdd } from "react-icons/gr";
-
+import { MdGroupAdd } from "react-icons/md";
 import {
   FaUser,
   FaUsers,
@@ -47,7 +47,6 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     <FaUserShield />,
     <FaInfo />,
     <GrTableAdd />,
-
   ];
   const [sidebarText, setSidebarText] = useState(sidebarCollapsedText);
   const [isCollapsed, setIsCollapsed] = useState(1);
@@ -88,7 +87,6 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
           </Link>
 
           <div className="flex flex-row items-center space-x-3">
-            
             <Link
               href="#"
               className="text-gray-900 rounded hover:bg-blue-700 hover:text-white dark:text-white dark:hover:text-blue-500 hidden sm:inline"
@@ -144,6 +142,18 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
                 </div>
               );
             })}
+
+            {/**register user */}
+            {loggedInUserDetails?.userType==="admin" && <>
+              <Link to={`/register`} key={"/register"}>
+                <div
+                  className={`overflow-hidden py-3 w-full text-center rounded-xl hover:bg-blue-500 hover:text-white flex justify-center `}
+                >
+                  {isCollapsed == 1 ? <MdGroupAdd /> : "Register"}
+                </div>
+              </Link>
+              <hr />
+            </>}
 
             {/* sign out button */}
             <>

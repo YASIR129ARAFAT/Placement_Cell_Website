@@ -20,12 +20,13 @@ function otherUserProfilePage() {
       try {
         let data = await getLoggedInUserDetails();
         setLoggedInUserDetails(data);
+        // console.log(data);
 
         // id of the user whose profile you want to view
         // console.log(id);
-        data = await getUserData(id);
-
-        setUserData(data);
+        const data2 = await getUserData(id);
+        // console.log(data2);
+        setUserData(data2);
       } catch (error) {
         console.log(error);
       }

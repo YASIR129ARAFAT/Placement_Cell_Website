@@ -30,7 +30,11 @@ exports.getAllUser = asyncHandler(async (req, res) => {
 exports.getUser = asyncHandler(async (req, res) => {
     const _id = req.params?.id;
 
-    const users = await User.findById(_id).select('-password -refreshToken');
+    const users = await User.findById(_id).select('-password -refreshToken')
+                            .populate("branch","branchName branchCode")
+                            .exec()
+    
+    console.log(users);
 
     res.json(users);
 
@@ -99,7 +103,9 @@ exports.getLoggedInUserDetails = asyncHandler(async (req, res) => {
 
     const { _id } = req.user;
 
-    let data = await User.findById(_id).select(" -password -refreshToken ");
+    let data = await User.findById(_id)
+                    .populate("branch","branchName branchCode")
+                    .select(" -password -refreshToken ");
 
     res.json(data);
 })

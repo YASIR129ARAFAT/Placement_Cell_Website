@@ -12,6 +12,8 @@ import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import Input from "../components/Input.jsx";
 import Label from "../components/Label.jsx";
 import Button from "../components/Button.jsx";
+import getAllBranches from "../services/getAllBranches.services.js";
+import Spinner from "../components/Spinner.jsx";
 
 
 function Registration() {
@@ -22,11 +24,15 @@ function Registration() {
   const [successMessage, setSuccessMessage] = useState("");
   const [generalErrorMessage, setGeneralErrorMessage] = useState("");
   const [loggedInUserDetails,setLoggedInUserDetails] = useState({})
+  const [branches,setBranches] = useState([]);
+  const [loading,setLoading] = useState(0);
+
   const navigate = useNavigate()
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      setLoading(1);
       const res = await axios.post(
         "http://localhost:3000/auth/signup",
         formData,
@@ -36,7 +42,8 @@ function Registration() {
           },
         }
       );
-      console.log(res?.data);
+      setLoading(0);
+      // console.log(res?.data);
       // console.log(errorMessage);
 
       setErrorMessage({ ...errorMessage, ...res?.data?.error });
@@ -92,6 +99,19 @@ function Registration() {
       }
     }
     loadLoggedInUserDetails()
+  },[])
+
+  useEffect(()=>{
+    async function loadAllBranches(){
+      try {
+        const data = await getAllBranches()
+        setBranches(data?.branches)
+      } catch (error) {
+        console.log(error);
+        navigate('/errorPage/internal server error')
+      }
+    }
+    loadAllBranches()
   },[])
   return (
     <section className="w-full pt-0 bg-white-50 dark:bg-gray-900">
@@ -311,6 +331,7 @@ function Registration() {
                   Add profile picture
                 </div>
               </div> */}
+
               {/* branch */}
               <div>
                 <label
@@ -326,9 +347,15 @@ function Registration() {
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
-                  <option defaultValue="IT">IT</option>
-                  <option value="IT-BI">IT-BI</option>
-                  <option value="ECE">ECE</option>
+                  <option defaultValue="">Not Selected</option>
+                  
+                  {
+                    branches.map((ele,ind)=>{
+                      return(
+                        <option key={ind} value={ele?._id}>{ele?.branchCode}</option>
+                      )
+                    })
+                  }
                 </select>
                 {errorMessage.branchError !== "" && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -375,7 +402,9 @@ function Registration() {
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
-                Create an account
+                <div className="flex flex-row justify-center">
+                  <Spinner text={"Create an Account"} loading={loading} ></Spinner>
+                </div>
               </Button>
               
               {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">

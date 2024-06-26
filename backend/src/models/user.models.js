@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const constants = require('../constants.js');
 const jwt = require('jsonwebtoken');
 
+
 const UserSchema = new Schema(
     {
         name: { type: String, required: [true, 'Name is mandatory'], trim: true, index: true },
@@ -21,7 +22,7 @@ const UserSchema = new Schema(
             index: true, // makes the search on the basis of email (this property) optimised
             lowercase: true
         },
-        branch: { type: String, required: true, trim: true },
+        branch: { type: String, required: true, trim: true, ref:"Branch" },
         mobile: { type: String, required: true, trim: true },
         batch: { type: String, required: true, trim: true },
         gender: { type: String, required: true, trim: true },

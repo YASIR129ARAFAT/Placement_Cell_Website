@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoReturnDownBack } from "react-icons/io5";
-
+import Spinner from "../components/Spinner.jsx";
 import Sidebar from "../components/Sidebar";
 
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
@@ -28,6 +28,7 @@ function UpdateUserDataPage() {
   });
 
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
+  const [loading,setLoading] = useState(0);
   const { id } = useParams();
 
   useEffect(() => {
@@ -150,10 +151,12 @@ function UpdateUserDataPage() {
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={(e) => {
-              handleSubmit(e, id, formVal, error, setError, navigate);
+              handleSubmit(e, id, formVal, error, setError, navigate,setLoading);
             }}
           >
-            Update Details
+            <div className="flex flex-row justify-center">
+                  <Spinner text={"Update Details"} loading={loading} ></Spinner>
+                </div>
           </button>
         </form>
       </div>

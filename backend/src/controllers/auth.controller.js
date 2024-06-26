@@ -17,7 +17,7 @@ exports.createUser = asyncHandler(async (req, res) => {
     // console.log("req.body");
     // console.log(req.body);
     formData.password = formData.dob; // initially password is set as dob YYYY-MM-DD
-
+    
     // trim all values of the formData
     for (const [key, value] of Object.entries(formData)) {
         const newValue = value.trim().trimStart()
@@ -26,6 +26,7 @@ exports.createUser = asyncHandler(async (req, res) => {
 
     let flag = 0;
     let error = {}
+    
     Object.entries(formData).forEach(([key, value]) => {
         if (value === "") {
             const newKey = key.toString() + "Error";
@@ -44,6 +45,11 @@ exports.createUser = asyncHandler(async (req, res) => {
     
     if (mobile.length != 10) {
         error = { ...error, mobileError: "Invalid mobile number" }
+        flag++;
+    }
+
+    if(formData.branch === "Not Selected"){
+        error = {...error,branchError:"Branch can't be empty"}
         flag++;
     }
 
@@ -87,8 +93,11 @@ exports.createUser = asyncHandler(async (req, res) => {
     const subject = `Registration for Placements Sucessful`
     const text = ``
     const html = getHtml(name,password,email)
-    await sendRegistrationEmail(to,subject,text,html);
+    console.log(to);
 
+    // console.log("dhjsbdsv::","info");
+    const info  = await sendRegistrationEmail(to,subject,text,html);
+    // console.log("dhjsbdsv::",info);
     //not safe to send password and token to user as response so remove them from object
     let { password: omit_pass, token, ...restObj } = formData
     // since password is already used as a name for var we used `password:omit_pass`

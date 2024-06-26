@@ -4,9 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Label from "../components/Label";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import Spinner from "../components/Spinner";
+
 
 function Login() {
   let navigate = useNavigate();
+  const [loading,setLoading] = useState(0);
   const [formVal, setFormVal] = useState({ email: "", password: "" });
   const [error, setError] = useState({
     emailError: "",
@@ -24,11 +27,10 @@ function Login() {
     e.preventDefault();
 
     try {
-      // console.log(formVal);
-      // console.log('submit');
+      setLoading(1);
       const res = await axios.post("http://localhost:3000/auth/login", formVal);
-      // console.log("res.data");
-      // console.log(res.data);
+      setLoading(0);
+      
       setFormVal({ email: "", password: "" });
       setError({ ...error, ...res.data.error });
       // window.location.href = `http://localhost:5173/allannouncements`
@@ -142,7 +144,9 @@ function Login() {
                 onClick={handleSubmit}
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
-                Sign in
+                <div className="flex flex-row justify-center">
+                  <Spinner text={"Sign in"} loading={loading} ></Spinner>
+                </div>
               </Button>
               {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}

@@ -1,3 +1,4 @@
+const { Branch } = require("../models/branch.model.js");
 const { Selection } = require("../models/selections.model.js");
 const { User } = require("../models/user.models.js");
 const { asyncHandler } = require("../utils/asyncHandler.js");
@@ -9,7 +10,15 @@ const getAllSelections = asyncHandler(async (req, res) => {
         .sort({ updateAt: -1 })
         .select("+fomattedTime +formattedDate")
         .populate("companyId", "companyName offerType formattedTestDate formattedTestTime")
-        .populate("studentId", "name branch image enrolmentNo")
+        .populate({
+            path: "studentId",
+            select: "name branch image enrolmentNo",
+            populate: {
+                path: "branch",
+                select: "branchCode branchName" // Add the fields you want from the Branch model
+            }
+        })
+
 
     const newSelection = []
     for (let obj of selection) {
@@ -19,20 +28,20 @@ const getAllSelections = asyncHandler(async (req, res) => {
 
         newSelection.push(newObj)
     }
-
+    console.log(newSelection);
     res.json({ newSelection });
 
 })
 
 const deleteSelection = asyncHandler(async (req, res) => {
     const { _id } = req.params;
-    
+
     const selection = await Selection.findByIdAndDelete(_id);
-    if(!selection){
-        res.status(400).json({success:0,message:"failed to delete"})
+    if (!selection) {
+        res.status(400).json({ success: 0, message: "failed to delete" })
     }
-    else{
-        res.status(200).json({success:1,message:"Deleted successfully"})
+    else {
+        res.status(200).json({ success: 1, message: "Deleted successfully" })
     }
 })
 const addSelections = asyncHandler(async (req, res) => {

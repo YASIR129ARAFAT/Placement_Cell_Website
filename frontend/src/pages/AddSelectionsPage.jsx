@@ -5,12 +5,13 @@ import { IoMdDoneAll } from "react-icons/io";
 
 import { useEffect, useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
-
+import Spinner from "../components/Spinner.jsx";
 import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails.js";
 import { addSelections } from "../services/addSelections.services.js";
 
 function AddSelectionsPage() {
   const [enrolmentNo, setEnrolmentNo] = useState([{ enrolmentNo: "" }]);
+  const [loading,setLoading] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
@@ -58,7 +59,9 @@ function AddSelectionsPage() {
   const handleSubmit = async (e, _id, enrolmentNo) => {
     e.preventDefault();
     try {
+      setLoading(1);
       const data = await addSelections(_id, enrolmentNo);
+      setLoading(0);
       if (data?.success === 1) {
         setSuccessMessage(data?.message);
         setTimeout(() => {
@@ -137,7 +140,9 @@ function AddSelectionsPage() {
               handleSubmit(e, _id, enrolmentNo);
             }}
           >
-            Add Selections
+            <div className="flex flex-row justify-center">
+                  <Spinner text={"Add Selections"} loading={loading} ></Spinner>
+                </div>
           </button>
         </div>
       </form>

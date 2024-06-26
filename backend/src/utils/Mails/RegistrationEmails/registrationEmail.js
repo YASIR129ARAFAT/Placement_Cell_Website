@@ -20,6 +20,8 @@ async function sendRegistrationEmail(to,subject,text,html) {
     html, // html body
   });
 
+  return info
+
 }
 
 module.exports = sendRegistrationEmail

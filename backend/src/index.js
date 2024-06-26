@@ -43,6 +43,8 @@ const { AnnouncementsRouter } = require('./routes/announcements.route.js');
 const { CommentsRouter } = require('./routes/comments.route.js');
 const { OpeningsRouter } = require('./routes/openings.route.js');
 const { SelectionRouter } = require('./routes/selections.route.js');
+const { BranchRouter } = require('./routes/branch.route.js');
+
 
 //router declaration
 server.use('/auth', authRoute);
@@ -51,6 +53,8 @@ server.use('/api/announcements', authMiddleware, AnnouncementsRouter); // this i
 server.use('/api/comments',authMiddleware, CommentsRouter); //comments route
 server.use('/api/opening',OpeningsRouter)
 server.use('/api/selection',SelectionRouter)
+server.use('/api/selection',SelectionRouter)
+server.use('/api/branch',BranchRouter)
 
 
 server.listen(process.env.PORT, (error) => {

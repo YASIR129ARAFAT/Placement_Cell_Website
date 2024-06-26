@@ -108,7 +108,7 @@ function AllSelectionsPage() {
                       </td>
                       <td className="px-6 py-4">
                         {" "}
-                        {ele?.studentDetails?.branch}
+                        {ele?.studentDetails?.branch?.branchCode}
                       </td>
                       <td className="px-6 py-4">
                         {" "}

@@ -5,7 +5,7 @@ import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 function UserInfoCard({ className = "", userData, children }) {
   const [loading, setLoading] = useState(false);
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
-
+  console.log("userdata: ", userData);
   useEffect(() => {
     async function getData() {
       try {
@@ -65,7 +65,7 @@ function UserInfoCard({ className = "", userData, children }) {
                 <div className="flex flex-wrap -mx-2">
                   <div className="w-1/2 px-2 mb-0">
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      <b>Branch:</b> {userData?.branch}
+                      <b>Branch:</b> {userData?.branch?.branchCode}
                     </p>
                   </div>
                   <div className="w-1/2 px-2 mb-0">

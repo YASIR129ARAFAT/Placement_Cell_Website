@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { IoMdDoneAll } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-
-
+import Spinner from "../components/Spinner.jsx";
 import Sidebar from "../components/Sidebar";
 
 
@@ -24,7 +23,7 @@ const AddOpeningPage = () => {
   const [applicationDeadline, setApplicationDeadline] = useState("");
   const [formLink, setFormLink] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
-
+  const[loading,setLoading] = useState(0);
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
 
   const intialErrorMessage = {
@@ -144,6 +143,7 @@ const AddOpeningPage = () => {
     // console.log("inside handler");
 
     try {
+      setLoading(1);
       const data = await addOpening({
         companyName,
         offerType,
@@ -158,7 +158,8 @@ const AddOpeningPage = () => {
         formLink,
         additionalInfo,
       });
-
+      setLoading(0);
+      
       // console.log("data from handler", data);
 
       if (data?.success === 0) {
@@ -558,7 +559,9 @@ const AddOpeningPage = () => {
             className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
             onClick={handleSubmit}
           >
-            Add Opening
+            <div className="flex flex-row justify-center">
+                  <Spinner text={"Add Opening"} loading={loading} ></Spinner>
+                </div>
           </button>
         </div>
       </form>

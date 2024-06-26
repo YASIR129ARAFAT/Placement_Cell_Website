@@ -14,7 +14,7 @@ export const initialRegistrationFormData = {
   enrolmentNo: "",
   dob: "",
   gender: "prefer not to say",
-  branch: "2020",
-  batch: "IT",
+  branch: "",
+  batch: "2020",
   mobile: "",
 };

@@ -60,8 +60,10 @@ const UserSchema = new Schema(
             type: String,
             default: ""
         },
-        refreshToken: {
-            type: String
+
+        resume: {
+            type: String,
+            default:""
         }
     },
     {

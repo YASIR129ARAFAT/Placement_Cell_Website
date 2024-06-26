@@ -2,11 +2,14 @@ import axios from "axios";
 async function updateUserDetails(id, formVal) {
     const formData = new FormData();
     formData.append('email', formVal.email);
+    formData.append('resume', formVal.resume);
     formData.append('dob', formVal.dob);
     formData.append('mobile', formVal.mobile);
     if (formVal.profileImage) {
         formData.append('profileImage', formVal.profileImage);
     }
+   
+
     try {
 
         const response = await axios.patch(`http://localhost:3000/api/user/updateUserDetails/${id}`,

@@ -72,7 +72,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
     let flag = 0;
     let error = {}
     Object.entries(updatedValues).forEach(([key, value]) => {
-        if (value === "") {
+        if (key!=='resume' && value === "") {
             const newKey = key.toString() + "Error";
             error = { ...error, [newKey]: `${key} can't be empty` };
             flag++;
@@ -102,6 +102,8 @@ exports.updateUser = asyncHandler(async (req, res) => {
 
         updatedValues.image = url;
     }
+
+    
 
 
 

@@ -7,7 +7,7 @@ cloudinary.config({
 });
 
 
-exports. uploadOnCloudinary = async(localFilePath) =>{
+exports. uploadOnCloudinary = async(localFilePath,fileType="auto") =>{
     try {
         if (!localFilePath) return null
 
@@ -17,7 +17,7 @@ exports. uploadOnCloudinary = async(localFilePath) =>{
             .upload(
                 localFilePath,
                 {
-                    resource_type: "auto"
+                    resource_type: fileType
                 }
             )
             // response will contain alot of info including the url where it is uploaded

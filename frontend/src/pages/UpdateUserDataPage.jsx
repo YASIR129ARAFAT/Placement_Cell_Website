@@ -19,6 +19,7 @@ function UpdateUserDataPage() {
     dob: "",
     mobile: "",
     profileImage: "",
+    resume:""
   });
 
   const [error, setError] = useState({
@@ -27,6 +28,7 @@ function UpdateUserDataPage() {
     mobileError: "",
     otherError: "",
     profileImageError: "",
+    resumeError:''
   });
 
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
@@ -74,7 +76,7 @@ function UpdateUserDataPage() {
         <div className="flex flex-col items-center mb-10 text-2xl text-blue-800">
           Update Your Details
         </div>
-        <form className="max-w-sm mx-auto" encType="multipart/form-data">
+        <form className="max-w-sm mx-auto border-2 border-grey-400 bg-gray-50 bg rounded-lg pl-10 pr-10 pt-4 pb-4" encType="multipart/form-data">
           <div className="mb-5">
             <label
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -94,6 +96,30 @@ function UpdateUserDataPage() {
             {error?.profileImageError !== "" && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span className="font-medium">Oops!</span> {error?.profileImageError}
+              </p>
+            )}
+          </div>
+
+          <div className="mb-5">
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="file_input"
+            >
+              Resume
+            </label>
+            <input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Link to your Resume"
+              type="text"
+              id="resume"
+              name="resume"
+              onChange={(e) => {
+                handleChange(e, formVal, setError, setFormVal);
+              }}
+            />
+            {error?.resumeError !== "" && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">Oops!</span> {error?.resumeError}
               </p>
             )}
           </div>

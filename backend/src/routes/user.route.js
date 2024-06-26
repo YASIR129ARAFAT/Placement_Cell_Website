@@ -43,7 +43,8 @@ router
         {
             name:"profileImage", // you can access this file inside controller using this name
             maxCount:1
-        }
+        },
+        
         // add multiple object inside this array to upload multiple file
         // this middleware will add a .file inside the req object
     ]), 

@@ -58,7 +58,7 @@ function getHtml(name, password, email) {
             <p>Congratulations! Your registration for the Placements Drive has been successful. We're excited to have you on board and wish you the best of luck in your upcoming interviews and assessments.</p>
             
             <div class="important-notice">
-                <p>IMPORTANT: Please change your password and upload your profile image as soon as possible!</p>
+                <p>IMPORTANT: Please change your password and upload your profile image and Resume as soon as possible!</p>
             </div>
             
             <div class="credentials">

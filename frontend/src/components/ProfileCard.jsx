@@ -1,5 +1,5 @@
 import profilePic from "../assets/images.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 function ProfileCard({ userData, loggedInUserDetails, className = "" }) {
@@ -13,7 +13,10 @@ function ProfileCard({ userData, loggedInUserDetails, className = "" }) {
     >
       <img
         className="p-4 object-cover w-full rounded-t-lg h-96 md:h-auto md:w-40 md:rounded-full md:rounded-s-full"
-        src={userData?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`}
+        src={
+          userData?.image ||
+          `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`
+        }
         alt="ef"
       />
       <div className="mt-2 flex flex-col justify-between p-3 leading-normal">
@@ -47,20 +50,23 @@ function ProfileCard({ userData, loggedInUserDetails, className = "" }) {
           <button
             type="button"
             className="text-white bg-[#2563EB] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
+            onClick={() => {
+              let url = userData?.resume || "";
+              if (!url) {
+                alert("No resume URL available");
+                return;
+              }
+              if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "https://" + url;
+              }
+              try {
+                window.open(url, "_blank", "noopener,noreferrer");
+              } catch (error) {
+                console.error("Error opening URL:", error);
+                alert("Unable to open the resume. Please check the URL.");
+              }
+            }}
           >
-            <svg
-              className="w-4 h-4 me-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 18 19"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z"
-                clip-rule="evenodd"
-              />
-            </svg>
             Resume
           </button>
         </div>

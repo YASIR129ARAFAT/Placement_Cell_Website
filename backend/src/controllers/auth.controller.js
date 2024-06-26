@@ -191,24 +191,26 @@ exports.login = asyncHandler(async (req, res) => {
 })
 
 
-// reset password for the case of forgot password
+// reset password for the case of forgot password 
 exports.resetForgotPassword = asyncHandler(async(req,res)=>{
     let {email} = req.body;
     email = email.trim().trimStart();
+    // console.log("sds");
 
     let user = await User.find({email})
     user = user[0];
     if(user){
         // console.log(user);
         const {_id,email,password} = user;
-        const secret = "cmc$$ST9$%sd"+password;
+        const secret = process.env.FORGOTPASSWORD_JWT_SECRET+password;
+        // console.log("1: -> ",secret);
         const payload = {
             email,
             password,
             id:_id
         }
         const token =  jwt.sign(payload,secret,{expiresIn:'4h'}); // token expires in 4hrs
-        const resetLink = `http://localhost:${process.env.FRONTEND_PORT}/reset/:${_id}/:${token}`
+        const resetLink = `http://localhost:${process.env.FRONTEND_PORT}/reset/${_id}?token=${token}`
 
         //send email
         const to = email
@@ -225,5 +227,50 @@ exports.resetForgotPassword = asyncHandler(async(req,res)=>{
     }
 })
 
+
+exports.resetFinalForgotPassword = asyncHandler(async(req,res)=>{
+    const {id,token} = req.params
+    let {confirmPassword,password} = req.body
+
+    confirmPassword = confirmPassword.trim().trimStart()
+    password = password.trim().trimStart()
+
+    //form validation
+    if(password!==confirmPassword){
+        res.json({success:0,message:"Password and ConfirmPassword not matching!!!"})
+        return;
+    }
+
+    if(password.length<4){
+        res.json({success:0,message:"Password must be of atleast 4 characters!!!"})
+        return;
+    }
+
+    let user = await User.find({_id:id});
+    user = user[0];
+
+    if(!user){
+        res.json({success:0,message:"Invalid reset link!!"})
+        return;
+    }
+
+    // verify token
+    const secret = process.env.FORGOTPASSWORD_JWT_SECRET+user.password
+
+    const decoded = jwt.verify(token,secret);
+
+    if(!decoded){
+        res.json({success:0,message:"Invalid reset link!!!!!"})
+        return;
+    }
+
+    user.password = password
+    await user.save({validateBeforeSave:false})
+
+    res.json({success:1,message:"Password Changed Successfully!!!"})
+
+
+
+})
 
 

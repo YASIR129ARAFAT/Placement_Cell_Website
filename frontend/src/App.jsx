@@ -24,6 +24,7 @@ import PageNotFound from "./pages/PageNotFound.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 import { RouterProvider,Route,createRoutesFromElements, createBrowserRouter } from "react-router-dom";
+import ResetPasswordPage from "./pages/ResetPAsswordPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,6 +51,9 @@ const router = createBrowserRouter(
 
       <Route path="errorPage/:message" element={<ErrorPage/>}/>
       <Route path="forgotPassword" element={<ForgotPassword/>}/>
+      <Route path="reset/:id" element={<ResetPasswordPage/>}/>
+
+
       <Route path="*" element={<PageNotFound/>}/>
     </Route>
   )

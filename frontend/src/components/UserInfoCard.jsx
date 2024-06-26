@@ -5,7 +5,7 @@ import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 function UserInfoCard({ className = "", userData, children }) {
   const [loading, setLoading] = useState(false);
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
-  console.log("userdata: ", userData);
+  // console.log("userdata: ", userData);
   useEffect(() => {
     async function getData() {
       try {
@@ -39,7 +39,7 @@ function UserInfoCard({ className = "", userData, children }) {
               </h1>
               <img
                 className="w-16 h-16 rounded-full border border-s border-blue-400 mr-4"
-                src="https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg"
+                src={userData?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`}
                 alt="user"
               />
             </div>

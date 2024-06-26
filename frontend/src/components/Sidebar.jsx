@@ -96,7 +96,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
 
             <img
               className="w-12 h-12 flex rounded-full items-center justify-center border-2 border-blue-700"
-              src={profilePicPlaceholder}
+              src={loggedInUserDetails?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`}
               alt="profile pic"
             />
           </div>

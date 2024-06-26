@@ -2,7 +2,9 @@
 // const data = JSON.parse(fs.readFileSync('./data.json', 'utf-8'))
 // let users = data.users;
 
+
 const { User } = require('../models/user.models');
+const { uploadOnCloudinary } = require('../utils/FileUploads/claudinary');
 const { asyncHandler } = require('../utils/asyncHandler');
 
 exports.getAllUser = asyncHandler(async (req, res) => {
@@ -31,10 +33,10 @@ exports.getUser = asyncHandler(async (req, res) => {
     const _id = req.params?.id;
 
     const users = await User.findById(_id).select('-password -refreshToken')
-                            .populate("branch","branchName branchCode")
-                            .exec()
-    
-    console.log(users);
+        .populate("branch", "branchName branchCode")
+        .exec()
+
+    // console.log(users);
 
     res.json(users);
 
@@ -54,13 +56,17 @@ exports.replaceUser = async (req, res) => {
 exports.updateUser = asyncHandler(async (req, res) => {
 
     const id = req.params?.id;
-    const updatedValues = req.body;
+    let updatedValues = req.body;
+
+    // console.log(id);
 
 
     // trim all values of the formData
     for (const [key, value] of Object.entries(updatedValues)) {
+
         const newValue = value.trim().trimStart()
         updatedValues[key] = newValue;
+
     }
 
     let flag = 0;
@@ -71,6 +77,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
             error = { ...error, [newKey]: `${key} can't be empty` };
             flag++;
         }
+
     });
 
     if (updatedValues?.mobile?.length != 10) {
@@ -82,6 +89,24 @@ exports.updateUser = asyncHandler(async (req, res) => {
     if (flag > 0) {
         return res.json({ success: 0, error });
     }
+
+
+    //get the current local path of the uploaded image
+    // following gives the current local path where the file is uploaded
+    let profileImageLocalPath = null // image may not be uploaded
+    if (req.files?.profileImage?.length) {
+        // if the file is sent fromt the user side then upload it
+        profileImageLocalPath = req.files?.profileImage[0]?.path
+        // upload the file on cloudinary
+        const { url } = await uploadOnCloudinary(profileImageLocalPath)
+
+        updatedValues.image = url;
+    }
+
+
+
+    //    console.log("final val",updatedValues);
+
 
     const user = await User.findByIdAndUpdate(id, updatedValues, { new: true });
     res.json({ success: 1, user, error })
@@ -104,8 +129,8 @@ exports.getLoggedInUserDetails = asyncHandler(async (req, res) => {
     const { _id } = req.user;
 
     let data = await User.findById(_id)
-                    .populate("branch","branchName branchCode")
-                    .select(" -password -refreshToken ");
+        .populate("branch", "branchName branchCode")
+        .select(" -password -refreshToken ");
 
     res.json(data);
 })
@@ -149,7 +174,7 @@ exports.changePassword = asyncHandler(async (req, res) => {
     // console.log(req.body);
     const updatedValues = req.body
     let flag = 0;
-    let error={}
+    let error = {}
     Object.entries(updatedValues).forEach(([key, value]) => {
         if (value === "") {
             const newKey = key.toString() + "Error";
@@ -158,11 +183,11 @@ exports.changePassword = asyncHandler(async (req, res) => {
         }
     });
 
-    if(flag){
+    if (flag) {
         return res.json({
             sucess: 0,
-            errors:error,
-            message:""
+            errors: error,
+            message: ""
         })
     }
 
@@ -170,20 +195,20 @@ exports.changePassword = asyncHandler(async (req, res) => {
     if (newPassword !== confirmNewPassword) {
         return res.json({
             sucess: 0,
-            errors:{
+            errors: {
                 otherError: "Confirm new password and new password not matching"
             },
-            message:""
+            message: ""
         })
     }
 
     if (password === newPassword) {
         return res.json({
             sucess: 0,
-            errors:{
+            errors: {
                 otherError: "Please type a password different from current password!!"
             },
-            message:""
+            message: ""
         })
     }
 
@@ -193,10 +218,10 @@ exports.changePassword = asyncHandler(async (req, res) => {
     if (!user) {
         return res.json({
             sucess: 0,
-            errors:{
+            errors: {
                 otherError: "Unauthorized access"
             },
-            message:""
+            message: ""
         })
     }
 
@@ -210,16 +235,16 @@ exports.changePassword = asyncHandler(async (req, res) => {
             .json({
                 sucess: 1,
                 message: "password changed successfully!!!",
-                errors:{}
+                errors: {}
             })
     }
     else {
         return res.json({
             sucess: 0,
             errors: {
-                otherError:"Wrong old password"
+                otherError: "Wrong old password"
             },
-            message:""
+            message: ""
         })
     }
 

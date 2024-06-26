@@ -13,7 +13,7 @@ function ProfileCard({ userData, loggedInUserDetails, className = "" }) {
     >
       <img
         className="p-4 object-cover w-full rounded-t-lg h-96 md:h-auto md:w-40 md:rounded-full md:rounded-s-full"
-        src={profilePic}
+        src={userData?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`}
         alt="ef"
       />
       <div className="mt-2 flex flex-col justify-between p-3 leading-normal">

@@ -7,7 +7,8 @@ const {
     deleteUser,
     logout, 
     changePassword,
-    getLoggedInUserDetails} = require('../controllers/user.controller.js')
+    getLoggedInUserDetails} = require('../controllers/user.controller.js');
+const { upload } = require('../middlewares/multerFileUpload.middleware.js');
 
 
 const router = express.Router();
@@ -37,7 +38,17 @@ router
 .get('/otherUserProfile/:id', getUser)
 .post('/changePassword',changePassword)
 .get('/:getAdminsOnly', getAllUser)
-.patch('/updateUserDetails/:id', updateUser)
+.patch('/updateUserDetails/:id', 
+        upload.fields([
+        {
+            name:"profileImage", // you can access this file inside controller using this name
+            maxCount:1
+        }
+        // add multiple object inside this array to upload multiple file
+        // this middleware will add a .file inside the req object
+    ]), 
+    updateUser
+)
 .delete('/:id', deleteUser)
 .post('/logout',logout) //auth middleware
 

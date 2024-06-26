@@ -18,6 +18,7 @@ function UpdateUserDataPage() {
     email: "",
     dob: "",
     mobile: "",
+    profileImage: "",
   });
 
   const [error, setError] = useState({
@@ -25,10 +26,11 @@ function UpdateUserDataPage() {
     dobError: "",
     mobileError: "",
     otherError: "",
+    profileImageError: "",
   });
 
   const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
-  const [loading,setLoading] = useState(0);
+  const [loading, setLoading] = useState(0);
   const { id } = useParams();
 
   useEffect(() => {
@@ -54,6 +56,7 @@ function UpdateUserDataPage() {
     }
     loadUserDetails();
   }, []);
+
   return (
     <Sidebar loggedInUserDetails={loggedInUserDetails} className="">
       <div className="w-full mt-20">
@@ -64,20 +67,40 @@ function UpdateUserDataPage() {
           >
             &#8249;
           </Link> */}
-          <Link
-            className="rounded-2xl m-2 p-2 "
-            to={`/userprofile`}
-          >
+          <Link className="rounded-2xl m-2 p-2 " to={`/userprofile`}>
             <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
           </Link>
         </div>
         <div className="flex flex-col items-center mb-10 text-2xl text-blue-800">
           Update Your Details
         </div>
-        <form className="max-w-sm mx-auto">
+        <form className="max-w-sm mx-auto" encType="multipart/form-data">
           <div className="mb-5">
             <label
-              for="email"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="file_input"
+            >
+              Profile Picture
+            </label>
+            <input
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              type="file"
+              id="profileImage"
+              name="profileImage"
+              onChange={(e) => {
+                handleChange(e, formVal, setError, setFormVal);
+              }}
+            />
+            {error?.profileImageError !== "" && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">Oops!</span> {error?.profileImageError}
+              </p>
+            )}
+          </div>
+
+          <div className="mb-5">
+            <label
+              htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Your email
@@ -90,7 +113,7 @@ function UpdateUserDataPage() {
               placeholder="Enter Your email"
               value={formVal?.email}
               onChange={(e) => {
-                handleChange(e, setError, setFormVal);
+                handleChange(e, formVal, setError, setFormVal);
               }}
             />
             {error?.emailError !== "" && (
@@ -101,7 +124,7 @@ function UpdateUserDataPage() {
           </div>
           <div className="mb-5">
             <label
-              for="mobile"
+              htmlFor="mobile"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Mobile No
@@ -113,7 +136,7 @@ function UpdateUserDataPage() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={formVal?.mobile}
               onChange={(e) => {
-                handleChange(e, setError, setFormVal);
+                handleChange(e, formVal, setError, setFormVal);
               }}
               placeholder="Enter Your Mobile no"
             />
@@ -125,7 +148,7 @@ function UpdateUserDataPage() {
           </div>
           <div className="mb-5">
             <label
-              for="dob"
+              htmlFor="dob"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Date of Birth
@@ -137,7 +160,7 @@ function UpdateUserDataPage() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={formVal?.dob}
               onChange={(e) => {
-                handleChange(e, setError, setFormVal);
+                handleChange(e, formVal, setError, setFormVal);
               }}
             />
             {error?.dobError !== "" && (
@@ -151,12 +174,20 @@ function UpdateUserDataPage() {
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={(e) => {
-              handleSubmit(e, id, formVal, error, setError, navigate,setLoading);
+              handleSubmit(
+                e,
+                id,
+                formVal,
+                error,
+                setError,
+                navigate,
+                setLoading
+              );
             }}
           >
             <div className="flex flex-row justify-center">
-                  <Spinner text={"Update Details"} loading={loading} ></Spinner>
-                </div>
+              <Spinner text={"Update Details"} loading={loading}></Spinner>
+            </div>
           </button>
         </form>
       </div>

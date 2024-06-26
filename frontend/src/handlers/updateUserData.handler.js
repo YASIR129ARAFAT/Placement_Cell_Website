@@ -1,6 +1,6 @@
 
 import { updateUserDetails } from "../services/updateUserDetails.services.js";
-async function handleSubmit(e, id, formVal, error, setError, navigate,setLoading) {
+async function handleSubmit(e, id, formVal, error, setError, navigate, setLoading) {
     e.preventDefault();
 
     try {
@@ -10,8 +10,7 @@ async function handleSubmit(e, id, formVal, error, setError, navigate,setLoading
         setError({ ...error, ...response?.error })
         // console.log(typeof response?.success);
         // console.log( response?.success);
-        if(response?.success ===1)
-        {
+        if (response?.success === 1) {
             navigate(`/userprofile`)
         }
     } catch (error) {
@@ -19,16 +18,19 @@ async function handleSubmit(e, id, formVal, error, setError, navigate,setLoading
     }
 }
 
-function handleChange(e,setError,setFormVal) {
+function handleChange(e, formVal, setError, setFormVal) {
     // console.log(formVal);
-    const name = e.target.name + "Error";
-    // console.log(name);
-    setError((error)=>{
-        return {...error, [name]: "", otherError: "" }
-    });
-    setFormVal((formVal)=>{
-        return { ...formVal, [e.target.name]: e.target.value }
-    });
-  }
+    const nameError = e.target.name + "Error";
+    const {name,value,type,files} = e.target
 
-export { handleSubmit,handleChange }
+    // console.log(nameError);
+    setError((error) => {
+        return { ...error, [nameError]: "", otherError: "" }
+    });
+    setFormVal((formVal) => {
+        return { ...formVal, [name]: type==="file" ? files[0] : value }
+    });
+    // console.log("data: ", formVal);
+}
+
+export { handleSubmit, handleChange }

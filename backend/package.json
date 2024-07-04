@@ -6,7 +6,7 @@
   "scripts": {
     "start":"node src/index.js",
     "server":"nodemon src/index.js",
-    "build": "npm install && cd ../frontend && npm install && npm install vite @vitejs/plugin-react --save-dev && npm run build && cd ../backend",
+    "build": "npm install && cd ../frontend && npm install && npx vite build && cd ../backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

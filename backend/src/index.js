@@ -1,15 +1,15 @@
 const dotenv = require('dotenv')
 const cors = require('cors')
-const cookieParser = require('cookie-parser');
-const fs = require('fs')
+// const cookieParser = require('cookie-parser');
+// const fs = require('fs')
 const express = require('express');
 const path = require('path');
 
 
 const server = express();
 dotenv.config({
-    path: '../.env'
-})
+    path: path.resolve(__dirname, '../.env')
+});
 
 
 const { dbConnection } = require('./db/connection.db.js')
@@ -55,6 +55,19 @@ server.use('/api/opening',OpeningsRouter)
 server.use('/api/selection',SelectionRouter)
 server.use('/api/selection',SelectionRouter)
 server.use('/api/branch',BranchRouter)
+
+
+// -------------------DEployment code------
+
+const __dirname1 = path.resolve()
+if(process.env.NODE_ENV === 'production'){
+    server.use(express.static(path.join(__dirname1,"/frontend/dist")))
+    server.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname1,"frontend","dist","index.html"))
+    })
+}
+// -------------------
+
 
 
 server.listen(process.env.PORT, (error) => {

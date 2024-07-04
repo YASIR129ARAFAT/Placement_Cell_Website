@@ -55,7 +55,7 @@ exports.addComment = asyncHandler(async (req, res) => {
 
     const {commentorId:writer, ...rest} = data;
     data = {writer, ...rest}
-    console.log("sjhsddj",data);
+    // console.log("sjhsddj",data);
 
     res.status(201).json({
         success: 1,

@@ -28,7 +28,7 @@ const getAllSelections = asyncHandler(async (req, res) => {
 
         newSelection.push(newObj)
     }
-    console.log(newSelection);
+    // console.log(newSelection);
     res.json({ newSelection });
 
 })
@@ -52,7 +52,7 @@ const addSelections = asyncHandler(async (req, res) => {
     const enrolments = []
     let flag = 0;
     enrolmentNoArr.map((ele) => {
-        console.log(typeof ele?.enrolmentNo);
+        // console.log(typeof ele?.enrolmentNo);
         let enrolmentStr = ele?.enrolmentNo
         // console.log(enrolmentStr);
         if (enrolmentStr === "") {
@@ -80,7 +80,7 @@ const addSelections = asyncHandler(async (req, res) => {
                 return Promise.resolve()
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             return Promise.reject(error)
         }
     })
@@ -99,7 +99,7 @@ const addSelections = asyncHandler(async (req, res) => {
                     await selection.save()
                     return Promise.resolve()
                 } catch (error) {
-                    console.log(error);
+                    // console.log(error);
                     return Promise.reject(error)
                 }
             })

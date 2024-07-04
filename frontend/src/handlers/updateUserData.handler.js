@@ -5,6 +5,7 @@ async function handleSubmit(e, id, formVal, error, setError, navigate, setLoadin
 
     try {
         setLoading(1);
+        console.log(formVal);
         const response = await updateUserDetails(id, formVal);
         setLoading(0);
         setError({ ...error, ...response?.error })

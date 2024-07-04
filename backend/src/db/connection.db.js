@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 async function dbConnection() {
     try {
-        await mongoose.connect('mongodb://0.0.0.0:27017/placement_cell');
+        const url = process.env.MONGO_DB_URL
+        await mongoose.connect(url);
         console.log('database connected...')
     }
     catch (err) {

@@ -11,7 +11,7 @@ import {
   FaPoll,
   FaUserShield,
   FaSignOutAlt,
-  FaInfo,
+  // FaInfo,
   FaArrowAltCircleLeft,
   FaArrowAltCircleRight,
 } from "react-icons/fa";
@@ -25,7 +25,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     "results",
     "Other Users",
     "Admin Profile",
-    "About",
+    // "About",
     "Placed Students",
   ];
   const correspondingPaths = [
@@ -35,7 +35,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     "/results",
     "/alluser",
     "/alladmins",
-    "/about",
+    // "/about",
     "/allSelections",
   ];
   const sidebarCollapsedText = [
@@ -45,7 +45,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
     <FaPoll />,
     <FaUsers />,
     <FaUserShield />,
-    <FaInfo />,
+    // <FaInfo />,
     <GrTableAdd />,
   ];
   const [sidebarText, setSidebarText] = useState(sidebarCollapsedText);

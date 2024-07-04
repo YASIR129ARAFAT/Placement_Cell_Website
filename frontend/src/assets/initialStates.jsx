@@ -1,7 +1,7 @@
 export const initialRegistrationErrorMessage = {
   emailError: "",
   nameError: "",
-  enrolment_noError: "",
+  enrolment_NoError: "",
   dobError: "",
   genderError: "",
   branchError: "",

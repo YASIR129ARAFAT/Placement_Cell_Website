@@ -49,7 +49,7 @@ exports.replaceUser = async (req, res) => {
         const user = await User.findByIdAndUpdate(id, updatedUser, { new: true });
         res.json(user)
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         res.sendStatus(400);
     }
 }

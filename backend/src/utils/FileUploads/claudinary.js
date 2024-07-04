@@ -21,7 +21,7 @@ exports. uploadOnCloudinary = async(localFilePath,fileType="auto") =>{
                 }
             )
             // response will contain alot of info including the url where it is uploaded
-            console.log("succes in file upload on URL",response.url);
+            // console.log("succes in file upload on URL",response.url);
 
             fs.unlinkSync(localFilePath) // remove the file from the local storage
             

@@ -82,14 +82,14 @@ function UserInfoCard({ className = "", userData, children }) {
                   </div>
                   <div className="w-1/2 px-2 mb-0">
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      <b>Verified By:</b>{" "}
+                      {/* <b>Verified By:</b>{" "}
                       {!userData?.verified_by ? (
                         <span className="text-red-600">N/A</span>
                       ) : (
                         <span className="text-green-600">
                           {userData?.verified_by}
                         </span>
-                      )}
+                      )} */}
                     </p>
                   </div>
                 </div>
@@ -127,12 +127,13 @@ function UserInfoCard({ className = "", userData, children }) {
               {/* verify button */}
               {userData?.isAdmin === false &&
               loggedInUserDetails?.isAdmin === true ? (
-                <Link
-                  to="/login"
-                  className="w-30 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  Verify User
-                </Link>
+                <></>
+                // <Link
+                //   to="/login"
+                //   className="w-30 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                // >
+                //   Verify User
+                // </Link>
               ) : (
                 ""
               )}

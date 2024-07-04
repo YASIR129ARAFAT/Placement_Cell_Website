@@ -19,7 +19,7 @@ function UpdateUserDataPage() {
     dob: "",
     mobile: "",
     profileImage: "",
-    resume:""
+    resume: ""
   });
 
   const [error, setError] = useState({
@@ -54,6 +54,7 @@ function UpdateUserDataPage() {
         email: data?.email,
         mobile: data?.mobile,
         dob: formattedDate,
+        resume:data?.resume
       });
     }
     loadUserDetails();
@@ -116,6 +117,7 @@ function UpdateUserDataPage() {
               onChange={(e) => {
                 handleChange(e, formVal, setError, setFormVal);
               }}
+              value={formVal?.resume}
             />
             {error?.resumeError !== "" && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">

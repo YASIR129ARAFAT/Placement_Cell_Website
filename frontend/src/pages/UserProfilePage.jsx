@@ -29,7 +29,8 @@ function UserProfilePage() {
               className=" text-base text-blue-700 "
               onClick={() => {
                 let url = userData?.resume || "";
-                if (!url) {
+                console.log("URL: ",url);
+                if (!url || url==="") {
                   alert("No resume URL available");
                   return;
                 }

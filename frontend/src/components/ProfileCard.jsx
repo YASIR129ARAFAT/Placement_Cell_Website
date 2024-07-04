@@ -52,11 +52,12 @@ function ProfileCard({ userData, loggedInUserDetails, className = "" }) {
             className="text-white bg-[#2563EB] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
             onClick={() => {
               let url = userData?.resume || "";
-              if (!url) {
+              console.log(url);
+              if (!url || url==="") {
                 alert("No resume URL available");
                 return;
               }
-              if (!url.startsWith("http://") && !url.startsWith("https://")) {
+              else if (!url.startsWith("http://") && !url.startsWith("https://")) {
                 url = "https://" + url;
               }
               try {

@@ -55,18 +55,19 @@ exports.createUser = asyncHandler(async (req, res) => {
 
     let checkUser = await User.findOne({ enrolmentNo });
     if (checkUser) {
-        error = { ...error, enrolmentNoError: "Enrolment no already is use!!" }
+        error = { ...error, enrolment_NoError: "Enrolment no already is use!!" }
         flag++;
     }
 
     checkUser = await User.findOne({ email });
     if (checkUser) {
-        error = { ...error, emailError: "email already is use!!" }
+        error = { ...error, emailError: "email already in use!!" }
         flag++;
     }
 
-
+    
     if (flag > 0) {
+        // console.log("erorr: ",error);
         return res.json({ success: 0, error });
         // throw new apiError(error,"messae from me", 500)
     }
@@ -93,7 +94,7 @@ exports.createUser = asyncHandler(async (req, res) => {
     const subject = `Registration for Placements Sucessful`
     const text = ``
     const html = getHtml(name,password,email)
-    console.log(to);
+
 
     // console.log("dhjsbdsv::","info");
     const info  = await sendRegistrationEmail(to,subject,text,html);
@@ -119,7 +120,7 @@ const generateAccessAndRefreshToken = async (user_id) => {
 
         return { accessToken, refreshToken };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.json({ success: 0, error: { message: "server unable to generate token" } });
     }
 

@@ -47,15 +47,6 @@ const UserSchema = new Schema(
             type:Boolean,
             default:false
         },
-        isVerified: {
-            type: Boolean,
-            default: false
-        },
-        verifiedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            // ref: "Admin",  admin table yet to be created
-            default: null
-        },
         image: {
             type: String,
             default: ""

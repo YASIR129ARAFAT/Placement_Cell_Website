@@ -190,7 +190,7 @@ const addOpening = asyncHandler(async (req, res) => {
          * stipendPerMonth -> non-empty
          * ctc -> non-empty
          */
-        console.log("int + full");
+        // console.log("int + full");
         if (internshipDuration === "") { // duration in months
             flag++;
             error = { ...error, internshipDurationError: "Internship duration can't be empty" }

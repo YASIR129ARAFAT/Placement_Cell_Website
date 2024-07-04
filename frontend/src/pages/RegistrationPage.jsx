@@ -44,7 +44,7 @@ function Registration() {
       );
       setLoading(0);
       // console.log(res?.data);
-      // console.log(errorMessage);
+      console.log(errorMessage);
 
       setErrorMessage({ ...errorMessage, ...res?.data?.error });
       // setFormData(initialRegistrationFormData);
@@ -218,10 +218,10 @@ function Registration() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="eg. IIT2021182"
                 />
-                {errorMessage.enrolment_noError !== "" && (
+                {errorMessage.enrolment_NoError !== "" && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                     <span className="font-medium">Oops!</span>{" "}
-                    {errorMessage.enrolment_noError}
+                    {errorMessage.enrolment_NoError}
                   </p>
                 )}
               </div>

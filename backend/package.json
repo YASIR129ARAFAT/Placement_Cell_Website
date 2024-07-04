@@ -1,12 +1,12 @@
 {
-  "name": "nodejs",
+  "name": "Pcell-Website",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start":"node src/index.js",
     "server":"nodemon src/index.js",
-    "build": "npm install && npm install --prefix ../frontend && npm run build --prefix ../frontend",
+    "build": "npm install && cd ../frontend && npm install && npm install vite @vitejs/plugin-react --save-dev && npm run build && cd ../backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
